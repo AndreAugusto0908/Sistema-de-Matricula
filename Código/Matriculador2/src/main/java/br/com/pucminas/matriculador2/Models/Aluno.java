@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -25,4 +27,31 @@ public class Aluno {
     private String senha;
     @Column
     private String email;
+
+    private Matricula matricula;
+
+    public void efetuarMatricula(Disciplina disciplina) {
+        List<Aluno> disciplinas = new ArrayList<>();
+        disciplinas = disciplina.getListaAlunos();
+
+        if (disciplinas.size() < 4) {
+            matricula.adicionarDisciplina(disciplina);
+        } else if (disciplinas.size() < 2) {
+            matricula.adicionarDisciplina(disciplina);
+        } else {
+            System.out.println("Número máximo de disciplinas atingido.");
+        }
+    }
+
+    public void cancelarMatricula(Disciplina disciplina) {
+        List<Aluno> disciplinas = new ArrayList<>();
+        disciplinas = disciplina.getListaAlunos();
+        
+        if (disciplinas.contains(disciplina)) {
+            matricula.removerDisciplina(disciplina);
+        } else if (disciplinas.contains(disciplina)) {
+            matricula.removerDisciplina(disciplina);
+        }
+    }
 }
+
