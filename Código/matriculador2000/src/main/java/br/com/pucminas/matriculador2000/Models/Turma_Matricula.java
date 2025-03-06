@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.web.WebProperties;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "Turma_Matricula")
 public class Turma_Matricula {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

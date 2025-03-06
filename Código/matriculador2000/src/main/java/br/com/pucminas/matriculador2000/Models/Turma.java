@@ -11,6 +11,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Table(name = "Turma")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Turma {

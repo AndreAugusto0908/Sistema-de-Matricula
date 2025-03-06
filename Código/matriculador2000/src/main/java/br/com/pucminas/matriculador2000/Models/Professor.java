@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Entity
-@Table
+@Table(name = "Professor")
 @Data
 public class Professor extends Usuario {
 

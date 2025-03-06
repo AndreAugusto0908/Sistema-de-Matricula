@@ -58,6 +58,8 @@ public class ConfigInitializer implements ApplicationRunner {
         disciplina.setNome("Projeto de Software");
         disciplina.setDescricao("Projeto de Software - Alguma descrição");
         disciplina.setAtiva(true);
+        disciplina.setOpcional(true);
+        disciplina.setPeriodo(4);
         disciplinaRepositorie.save(disciplina);
 
         Turma turma = new Turma();

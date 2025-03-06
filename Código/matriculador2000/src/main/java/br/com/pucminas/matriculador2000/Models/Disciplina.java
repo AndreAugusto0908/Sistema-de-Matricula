@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@Table(name = "Disciplina")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Disciplina {
@@ -21,4 +22,6 @@ public class Disciplina {
     private boolean ativa;
     @Column
     private boolean opcional;
+    @Column
+    private int periodo;
 }

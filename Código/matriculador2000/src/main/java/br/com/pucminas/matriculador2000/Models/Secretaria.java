@@ -7,7 +7,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@Table
+@Table(name = "Secretaria")
 @Entity
 @Data
 public class Secretaria extends Usuario {
