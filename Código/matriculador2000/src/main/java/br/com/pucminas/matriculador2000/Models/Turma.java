@@ -15,19 +15,24 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Turma {
+
+    public static final int MAX_ALUNOS = 60;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long Id;
-    @OneToOne
+    private Long Id;
+    @ManyToOne
     private Disciplina disciplina;
     @Column
     private LocalDate dataInicio;
     @Column
     private LocalDate dataFim;
-    @OneToOne
+    @ManyToOne
     private Professor professor;
     @Column
     private LocalTime horario;
     @Column
     private String local;
+    @Column
+    private String diaSemana;
 }

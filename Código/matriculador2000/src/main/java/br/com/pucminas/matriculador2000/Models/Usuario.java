@@ -14,7 +14,7 @@ public abstract class Usuario {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected long id;
+    protected Long id;
     @Column(name = "nome")
     protected String nome;
     @Column(name="email")

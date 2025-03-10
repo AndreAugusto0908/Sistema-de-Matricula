@@ -25,8 +25,14 @@ public class AlunoController {
         return ResponseEntity.ok(repositorie.findAll());
     }
 
+    @GetMapping(value = "/getTurmasMatriculadas")
+    public ResponseEntity<?> getTurmasMatriculadas(@RequestParam("matricula") Long matricula) {
+        return ResponseEntity.ok(service.findTurmasMatriculadas(matricula));
+    }
+
     @PutMapping(value = "/matricularTurma")
     public ResponseEntity<?> matricularTurma(@RequestBody RealizarMatriculaDTO dto) {
+        System.out.println(dto.turmaId);
         GenericResponse resposta = new GenericResponse();
         resposta.setMensagem(this.service.realizarMatricula(dto.email, dto.senha, dto.turmaId));
         return ResponseEntity.ok(resposta);

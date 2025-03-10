@@ -9,6 +9,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Component
 public class ConfigInitializer implements ApplicationRunner {
@@ -19,6 +20,7 @@ public class ConfigInitializer implements ApplicationRunner {
     private final ISecretariaRepository secretariaRepositorie;
     private final ITurmaRepository turmaRepositorie;
     private final ITurmaMatriculaRepository turmaMatriculaRepositorie;
+    private final ICursoRepository cursoRepositorie;
 
     @Autowired
     public ConfigInitializer(
@@ -28,7 +30,8 @@ public class ConfigInitializer implements ApplicationRunner {
             IDisciplinaRepository disciplinaRepositorie,
             ISecretariaRepository secretariaRepositorie,
             ITurmaRepository turmaRepositorie,
-            ITurmaMatriculaRepository turmaMatriculaRepositorie
+            ITurmaMatriculaRepository turmaMatriculaRepositorie,
+            ICursoRepository cursoRepositorie
     ) {
 
         this.alunoRepositorie = alunoRepositorie;
@@ -38,10 +41,19 @@ public class ConfigInitializer implements ApplicationRunner {
         this.secretariaRepositorie = secretariaRepositorie;
         this.turmaRepositorie = turmaRepositorie;
         this.turmaMatriculaRepositorie = turmaMatriculaRepositorie;
+        this.cursoRepositorie = cursoRepositorie;
     }
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
+        Curso curso = new Curso();
+        curso.setDescricao("Curso de Engenaria de Software");
+        curso.setNome("Engenaria de Software");
+        curso.setInstituicao("PUC Minas");
+        curso.setInicioPeriodoMatricula(LocalDate.now());
+        curso.setFimPeriodoMatricula(LocalDate.now().plusDays(30));
+        cursoRepositorie.save(curso);
+
         Matricula matricula = new Matricula();
         matricula.setDataFim(LocalDate.of(2025, 6, 30));
         matricula.setDataInicio(LocalDate.of(2025, 1, 30));
@@ -60,6 +72,7 @@ public class ConfigInitializer implements ApplicationRunner {
         disciplina.setAtiva(true);
         disciplina.setOpcional(true);
         disciplina.setPeriodo(4);
+        disciplina.setCurso(curso);
         disciplinaRepositorie.save(disciplina);
 
         Turma turma = new Turma();
@@ -68,7 +81,28 @@ public class ConfigInitializer implements ApplicationRunner {
         turma.setDataInicio(LocalDate.of(2025, 1, 30));
         turma.setDisciplina(disciplina);
         turma.setProfessor(professor);
+        turma.setDiaSemana("Segunda Feira");
+        turma.setHorario(LocalTime.of(19, 0));
         turmaRepositorie.save(turma);
+
+        Disciplina disciplina2 = new Disciplina();
+        disciplina2.setNome("Arquitetura de Software");
+        disciplina2.setDescricao("Arquitetura de Software - Alguma descrição");
+        disciplina2.setAtiva(true);
+        disciplina2.setOpcional(true);
+        disciplina2.setPeriodo(4);
+        disciplina2.setCurso(curso);
+        disciplinaRepositorie.save(disciplina2);
+
+        Turma turma2 = new Turma();
+        turma2.setLocal("Unidade Praça da Liberdade");
+        turma2.setDataFim(LocalDate.of(2025, 6, 30));
+        turma2.setDataInicio(LocalDate.of(2025, 1, 30));
+        turma2.setDisciplina(disciplina2);
+        turma2.setProfessor(professor);
+        turma2.setDiaSemana("Quinta Feira");
+        turma2.setHorario(LocalTime.of(20, 40));
+        turmaRepositorie.save(turma2);
 
         Aluno a = new Aluno();
         a.setNome("Aluno");
@@ -86,7 +120,7 @@ public class ConfigInitializer implements ApplicationRunner {
         Secretaria secretaria = new Secretaria();
         secretaria.setNome("Secretaria");
         secretaria.setEmail("secretaria@email.com");
-        secretaria.setSenha("123456");
+        secretaria.setSenha("1234567");
         secretaria.setPerfil(PerfilEnum.SECRETARIA);
         secretariaRepositorie.save(secretaria);
 
