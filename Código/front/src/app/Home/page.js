@@ -12,6 +12,30 @@ export default function Home() {
         }
     }, []);
 
+    const gerarCurriculo = async () => {
+        try {
+            const response = await fetch("http://localhost:8080/secretaria/gerarCurriculo", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${getToken()}`,
+                    "Content-Type": "application/json"
+                }
+            });
+    
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`Erro ao gerar currículo: ${errorText}`);
+            }
+    
+            const data = await response.json();
+            router.push(`/Curriculo?data=${encodeURIComponent(JSON.stringify(data))}`);
+        } catch (error) {
+            console.error("Erro na requisição:", error);
+            alert(`Falha ao gerar currículo: ${error.message}`);
+        }
+    };
+    
+
     const verDisciplinas = () => {
         router.push("/Disciplinas");
     }
@@ -22,7 +46,7 @@ export default function Home() {
             <div className="menu_container">
                 <button className="btn">Atualizar aluno</button>
                 <button className="btn">Atualizar professor</button>
-                <button className="btn">Gerar Currículo</button>
+                <button className="btn" onClick={gerarCurriculo}>Gerar Currículo</button>
             </div>
         
       );
