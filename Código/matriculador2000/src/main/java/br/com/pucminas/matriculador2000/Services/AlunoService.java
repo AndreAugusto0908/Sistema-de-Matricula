@@ -132,4 +132,8 @@ public class AlunoService {
         }
         return res;
     }
+
+    public void delete(Long id) {
+        alunoRepository.deleteById(id);
+    }
 }

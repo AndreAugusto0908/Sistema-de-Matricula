@@ -41,4 +41,8 @@ public class ProfessorService {
         }
         return res;
     }
+
+    public void delete(Long id) {
+        professorRepository.deleteById(id);
+    }
 }

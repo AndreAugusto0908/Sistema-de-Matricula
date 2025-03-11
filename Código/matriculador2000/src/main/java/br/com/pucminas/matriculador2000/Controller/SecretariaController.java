@@ -20,6 +20,7 @@ public class SecretariaController {
     private final AlunoService alunoService;
     private final ProfessorService professorService;
 
+
     public SecretariaController(CursoService cursoService, ProfessorService professorService, AlunoService alunoService, SemestreService semestreService) {
         this.cursoService = cursoService;
         this.professorService = professorService;
@@ -54,5 +55,15 @@ public class SecretariaController {
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteUser(@RequestBody UsuarioDTO dto) {
+        if(dto.getPerfil().name() == "PROFESSOR") {
+            professorService.delete(dto.getId());
+        } else {
+            alunoService.delete(dto.getId());
+        }
+        return ResponseEntity.ok().build();
     }
 }
