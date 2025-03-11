@@ -23,16 +23,10 @@ public class Turma {
     private Long Id;
     @ManyToOne
     private Disciplina disciplina;
-    @Column
-    private LocalDate dataInicio;
-    @Column
-    private LocalDate dataFim;
+    @ManyToOne
+    private Semestre semestre;
     @ManyToOne
     private Professor professor;
     @Column
     private LocalTime horario;
-    @Column
-    private String local;
-    @Column
-    private String diaSemana;
 }

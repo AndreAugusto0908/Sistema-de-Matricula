@@ -16,6 +16,16 @@ public class CORSConfig {
                         .allowedOrigins("*")
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowedHeaders("*");
+
+                registry.addMapping("/secretaria/**")
+                        .allowedOrigins("*")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE")
+                        .allowedHeaders("*");
+
+                registry.addMapping("/turma/**")
+                        .allowedOrigins("*")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE")
+                        .allowedHeaders("*");
                 
                 registry.addMapping("/login")
                         .allowedOrigins("*")

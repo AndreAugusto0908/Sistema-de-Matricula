@@ -21,6 +21,7 @@ public class ConfigInitializer implements ApplicationRunner {
     private final ITurmaRepository turmaRepositorie;
     private final ITurmaMatriculaRepository turmaMatriculaRepositorie;
     private final ICursoRepository cursoRepositorie;
+    private final ISemestreRepository semestreRepositorie;
 
     @Autowired
     public ConfigInitializer(
@@ -31,7 +32,8 @@ public class ConfigInitializer implements ApplicationRunner {
             ISecretariaRepository secretariaRepositorie,
             ITurmaRepository turmaRepositorie,
             ITurmaMatriculaRepository turmaMatriculaRepositorie,
-            ICursoRepository cursoRepositorie
+            ICursoRepository cursoRepositorie,
+            ISemestreRepository semestreRepositorie
     ) {
 
         this.alunoRepositorie = alunoRepositorie;
@@ -42,6 +44,7 @@ public class ConfigInitializer implements ApplicationRunner {
         this.turmaRepositorie = turmaRepositorie;
         this.turmaMatriculaRepositorie = turmaMatriculaRepositorie;
         this.cursoRepositorie = cursoRepositorie;
+        this.semestreRepositorie = semestreRepositorie;
     }
 
     @Override
@@ -50,14 +53,14 @@ public class ConfigInitializer implements ApplicationRunner {
         curso.setDescricao("Curso de Engenaria de Software");
         curso.setNome("Engenaria de Software");
         curso.setInstituicao("PUC Minas");
-        curso.setInicioPeriodoMatricula(LocalDate.now());
-        curso.setFimPeriodoMatricula(LocalDate.now().plusDays(30));
         cursoRepositorie.save(curso);
 
-        Matricula matricula = new Matricula();
-        matricula.setDataFim(LocalDate.of(2025, 6, 30));
-        matricula.setDataInicio(LocalDate.of(2025, 1, 30));
-        matriculaRepositorie.save(matricula);
+        Semestre semestre = new Semestre();
+        semestre.setInicioPeriodoMatricula(LocalDate.now());
+        semestre.setFimPeriodoMatricula(LocalDate.now().plusDays(30));
+        semestre.setCurso(curso);
+        semestreRepositorie.save(semestre);
+
 
         Professor professor = new Professor();
         professor.setNome("Rodrigo Professor");
@@ -76,13 +79,10 @@ public class ConfigInitializer implements ApplicationRunner {
         disciplinaRepositorie.save(disciplina);
 
         Turma turma = new Turma();
-        turma.setLocal("Unidade Praça da Liberdade");
-        turma.setDataFim(LocalDate.of(2025, 6, 30));
-        turma.setDataInicio(LocalDate.of(2025, 1, 30));
         turma.setDisciplina(disciplina);
         turma.setProfessor(professor);
-        turma.setDiaSemana("Segunda Feira");
         turma.setHorario(LocalTime.of(19, 0));
+        turma.setSemestre(semestre);
         turmaRepositorie.save(turma);
 
         Disciplina disciplina2 = new Disciplina();
@@ -95,13 +95,10 @@ public class ConfigInitializer implements ApplicationRunner {
         disciplinaRepositorie.save(disciplina2);
 
         Turma turma2 = new Turma();
-        turma2.setLocal("Unidade Praça da Liberdade");
-        turma2.setDataFim(LocalDate.of(2025, 6, 30));
-        turma2.setDataInicio(LocalDate.of(2025, 1, 30));
         turma2.setDisciplina(disciplina2);
         turma2.setProfessor(professor);
-        turma2.setDiaSemana("Quinta Feira");
         turma2.setHorario(LocalTime.of(20, 40));
+        turma2.setSemestre(semestre);
         turmaRepositorie.save(turma2);
 
         Aluno a = new Aluno();
@@ -109,8 +106,15 @@ public class ConfigInitializer implements ApplicationRunner {
         a.setEmail("aluno@email.com");
         a.setSenha("123456");
         a.setPerfil(PerfilEnum.ALUNO);
-        a.setMatricula(matricula);
+        a.setMatricula(1L);
         alunoRepositorie.save(a);
+
+        Matricula matricula = new Matricula();
+        matricula.setAluno(a);
+        matricula.setNumeroMatricula(1L);
+        matricula.setValor(1500);
+        matricula.setSemestre(semestre);
+        matriculaRepositorie.save(matricula);
 
         Turma_Matricula turmaMatricula = new Turma_Matricula();
         turmaMatricula.setMatricula(matricula);
