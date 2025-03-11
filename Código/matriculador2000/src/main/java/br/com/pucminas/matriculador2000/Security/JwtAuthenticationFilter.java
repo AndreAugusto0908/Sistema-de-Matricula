@@ -21,6 +21,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws jakarta.servlet.ServletException, IOException {
         String token = request.getHeader("Authorization");
+        System.out.println(token);
         if (token != null && token.startsWith("Bearer ")) {
             token = token.substring(7);
             if (JwtUtil.isTokenValid(token)) {

@@ -5,27 +5,26 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Entity
+@Table(name = "Curso")
 @Data
-@Table(name = "Disciplina")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Disciplina {
-    public static final long MIN_ALUNO = 3;
-
+public class Curso {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "nome")
+    @Column
     private String nome;
-    @Column(name = "descricao")
+    @Column
     private String descricao;
-    @Column(name = "ativa")
-    private boolean ativa;
     @Column
-    private boolean opcional;
+    private String instituicao;
     @Column
-    private int periodo;
-    @ManyToOne
-    private Curso curso;
+    private LocalDate inicioPeriodoMatricula;
+    @Column
+    private LocalDate fimPeriodoMatricula;
+
 }

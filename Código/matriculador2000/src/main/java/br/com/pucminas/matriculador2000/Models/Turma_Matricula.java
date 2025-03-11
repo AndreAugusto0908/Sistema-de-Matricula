@@ -15,8 +15,8 @@ public class Turma_Matricula {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
+    @ManyToOne
     private Matricula matricula;
-    @OneToOne
+    @ManyToOne
     private Turma turma;
 }

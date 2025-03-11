@@ -13,7 +13,6 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "Matricula")
-
 @AllArgsConstructor
 @NoArgsConstructor
 public class Matricula {

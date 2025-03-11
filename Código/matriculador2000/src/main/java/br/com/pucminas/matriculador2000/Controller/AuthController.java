@@ -1,5 +1,6 @@
 package br.com.pucminas.matriculador2000.Controller;
 
+import br.com.pucminas.matriculador2000.DTO.AuthDTO;
 import br.com.pucminas.matriculador2000.Models.Usuario;
 import br.com.pucminas.matriculador2000.Services.AuthService;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,9 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestParam("username") String username, @RequestParam("password") String password) {
         Usuario user = service.getUsuario(username, password);
         String token = user.logIn();
-        return ResponseEntity.ok(token);
+        AuthDTO authDTO = new AuthDTO();
+        authDTO.setToken(token);
+        authDTO.setProfile(user.getPerfil().name());
+        return ResponseEntity.ok(authDTO);
     }
 }
