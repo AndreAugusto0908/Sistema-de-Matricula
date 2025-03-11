@@ -5,24 +5,22 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 import java.time.LocalDate;
 
 @Entity
+@Table
 @Data
-@Table(name = "Matricula")
-@AllArgsConstructor
 @NoArgsConstructor
-public class Matricula {
+@AllArgsConstructor
+public class Semestre {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
-    private Long numeroMatricula;
-    @ManyToOne
-    private Semestre semestre;
+    private LocalDate inicioPeriodoMatricula;
     @Column
-    private double valor;
+    private LocalDate fimPeriodoMatricula;
     @ManyToOne
-    private Aluno aluno;
+    private Curso curso;
+
 }

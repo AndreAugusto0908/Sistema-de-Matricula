@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class Aluno extends Usuario {
-    @OneToOne
-    private Matricula matricula;
+    @Column
+    private Long matricula;
 }

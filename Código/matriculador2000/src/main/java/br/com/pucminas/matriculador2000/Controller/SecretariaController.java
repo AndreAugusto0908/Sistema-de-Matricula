@@ -6,6 +6,7 @@ import br.com.pucminas.matriculador2000.DTO.UsuarioDTO;
 import br.com.pucminas.matriculador2000.Services.AlunoService;
 import br.com.pucminas.matriculador2000.Services.CursoService;
 import br.com.pucminas.matriculador2000.Services.ProfessorService;
+import br.com.pucminas.matriculador2000.Services.SemestreService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,13 +15,17 @@ import org.springframework.web.bind.annotation.*;
 public class SecretariaController {
 
     private final CursoService cursoService;
+    private final SemestreService semestreService;
+
     private final AlunoService alunoService;
     private final ProfessorService professorService;
 
-    public SecretariaController(CursoService cursoService, ProfessorService professorService, AlunoService alunoService) {
+
+    public SecretariaController(CursoService cursoService, ProfessorService professorService, AlunoService alunoService, SemestreService semestreService) {
         this.cursoService = cursoService;
         this.professorService = professorService;
         this.alunoService = alunoService;
+        this.semestreService = semestreService;
     }
 
     @PostMapping("/gerarCurriculo")
@@ -30,7 +35,7 @@ public class SecretariaController {
 
     @PutMapping("/definirPeriodoMatricula")
     public ResponseEntity<?> definirPeriodoMatricula(@RequestBody PeriodoMatriculaDTO periodo) {
-        this.cursoService.definirPeriodoMatricula(periodo);
+        this.semestreService.definirPeriodoMatricula(periodo);
         return ResponseEntity.ok().build();
     }
 
@@ -50,5 +55,15 @@ public class SecretariaController {
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteUser(@RequestBody UsuarioDTO dto) {
+        if(dto.getPerfil().name() == "PROFESSOR") {
+            professorService.delete(dto.getId());
+        } else {
+            alunoService.delete(dto.getId());
+        }
+        return ResponseEntity.ok().build();
     }
 }

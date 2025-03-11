@@ -19,12 +19,9 @@ public class Curso {
     @Column
     private String nome;
     @Column
+    private int creditos;
+    @Column
     private String descricao;
     @Column
     private String instituicao;
-    @Column
-    private LocalDate inicioPeriodoMatricula;
-    @Column
-    private LocalDate fimPeriodoMatricula;
-
 }

@@ -41,7 +41,8 @@ public class AlunoService {
         }
 
         Aluno aluno = this.alunoRepository.findAlunoByEmailAndSenha(email, senha);
-        List<Turma_Matricula> turmas_matriculas = turmaMatriculaRepository.findTurma_MatriculasByMatricula(aluno.getMatricula());
+        Matricula matricula = matriculaRepository.findMatriculaByAluno(aluno);
+        List<Turma_Matricula> turmas_matriculas = turmaMatriculaRepository.findTurma_MatriculasByMatricula(matricula);
         if(turmas_matriculas.size() < 6) {
             int opcionais = 0;
             int obrigatorias = 0;
@@ -59,7 +60,7 @@ public class AlunoService {
             if((turma.getDisciplina().isOpcional() && obrigatorias < 4) || (!turma.getDisciplina().isOpcional() && opcionais < 2)) {
                 Turma_Matricula tm = new Turma_Matricula();
                 tm.setTurma(turma);
-                tm.setMatricula(aluno.getMatricula());
+                tm.setMatricula(matricula);
                 try {
                     turmaMatriculaRepository.save(tm);
 
@@ -82,7 +83,8 @@ public class AlunoService {
 
         Turma turma = turmaOpt.get();
         Aluno aluno = this.alunoRepository.findAlunoByEmailAndSenha(email, senha);
-        List<Turma_Matricula> turmas_matriculas = turmaMatriculaRepository.findTurma_MatriculasByMatriculaAndTurma(aluno.getMatricula(), turma);
+        Matricula matriculaPorAluno = this.matriculaRepository.findMatriculaByAluno(aluno);
+        List<Turma_Matricula> turmas_matriculas = turmaMatriculaRepository.findTurma_MatriculasByMatriculaAndTurma(matriculaPorAluno, turma);
         if(!turmas_matriculas.isEmpty()) {
             turmaMatriculaRepository.delete(turmas_matriculas.get(0));
             return "Matricula removida com sucesso";
@@ -122,12 +124,16 @@ public class AlunoService {
             }
             if(alunoDTO.getIdMatricula() != null) {
                 Matricula mat = matriculaRepository.findMatriculaById(alunoDTO.getIdMatricula()).get(0);
-                a.setMatricula(mat);
+                a.setMatricula(mat.getNumeroMatricula());
             }
             alunoRepository.save(a);
         } catch (Exception e) {
             res.setMensagem("Erro manipular registro de aluno");
         }
         return res;
+    }
+
+    public void delete(Long id) {
+        alunoRepository.deleteById(id);
     }
 }
