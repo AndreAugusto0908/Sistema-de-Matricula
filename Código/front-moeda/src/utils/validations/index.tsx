@@ -11,3 +11,10 @@ export const alunoSchema = z.object({
 });
 
 export type AlunoFormData = z.infer<typeof alunoSchema>;
+
+export const empresaSchema = z.object({
+  nome: z.string().min(1, "O nome é obrigatório"),
+  documento: z.string().min(11, "O documento é obrigatório"),
+});
+
+export type EmpresaFormData = z.infer<typeof empresaSchema>;
