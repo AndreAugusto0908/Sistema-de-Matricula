@@ -65,4 +65,15 @@ public class AlunoController {
             return ResponseEntity.ok().body(aluno.get(0));
 
     }
+
+    @GetMapping()
+    public ResponseEntity<?> obterTodosAlunos() {
+        List<Aluno> alunos = alunoRepository.findAll();
+
+        if (alunos.isEmpty()) {
+            return ResponseEntity.badRequest().body(new GenericResponse("Nenhum aluno encontrado", "erro"));
+        }
+
+        return ResponseEntity.ok().body(alunos);
+    }
 }
