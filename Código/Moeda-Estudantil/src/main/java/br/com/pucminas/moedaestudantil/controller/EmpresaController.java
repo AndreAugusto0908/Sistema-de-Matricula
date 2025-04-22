@@ -1,9 +1,12 @@
 package br.com.pucminas.moedaestudantil.controller;
 
+import br.com.pucminas.moedaestudantil.DTO.EmpresaDTO;
 import br.com.pucminas.moedaestudantil.model.Empresa;
 import br.com.pucminas.moedaestudantil.repository.EmpresaRepository;
 import br.com.pucminas.moedaestudantil.responses.GenericResponse;
 import br.com.pucminas.moedaestudantil.service.EmpresaService;
+
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +25,7 @@ public class EmpresaController {
     }
 
     @PostMapping("/registrar")
-    public ResponseEntity<?> registrarEmpresa(@RequestBody Empresa empresa) {
+    public ResponseEntity<?> registrarEmpresa(@RequestBody EmpresaDTO empresa) {
         try {
             return ResponseEntity.ok(empresaService.criarEmpresa(empresa));
         } catch (Exception e) {
