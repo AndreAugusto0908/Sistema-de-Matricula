@@ -6,51 +6,45 @@ import { ConfirmationModal } from "../../modal/confirmationModal";
 import { toast } from "sonner";
 import { api } from "@/service/api";
 import ENDPOINTS from "@/service/endpoints";
-import { Eye, Trash2, Pencil } from "lucide-react"; // Adicionado Pencil (ícone lápis)
+import { Eye, Trash2, Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-interface Aluno {
+interface Empresa {
   id: number;
   nome: string;
-  curso: string;
   documento: string;
 }
 
-interface AlunosTableProps {
-  data: Aluno[];
-  onView?: (aluno: Aluno) => void;
-  onDelete?: (aluno: Aluno) => void;
+interface EmpresasTableProps {
+  data: Empresa[];
+  onDelete?: (empresa: Empresa) => void;
 }
 
-export function AlunosTable({ data, onView, onDelete }: AlunosTableProps) {
+export function EmpresasTable({ data, onDelete }: EmpresasTableProps) {
   const router = useRouter();
   const [modalOpen, setModalOpen] = useState(false);
-  const [alunoSelecionado, setAlunoSelecionado] = useState<Aluno | null>(null);
-
+  const [empresaSelecionada, setEmpresaSelecionada] = useState<Empresa | null>(null);
+  
   const handleConfirmDelete = async () => {
-    if (!alunoSelecionado) return;
+    if (!empresaSelecionada) return;
     try {
-      const alunoDTO = {
-        id: alunoSelecionado.id
-      };
-  
-      await api.delete(ENDPOINTS.ALUNO.DELETE, { data: alunoDTO }); 
-      // <- Aqui importante passar { data: body } no axios.delete!
-  
-      toast.success("Aluno removido com sucesso!");
-      onDelete?.(alunoSelecionado);
+      await api.delete(`${ENDPOINTS.EMPRESA.DELETE}?id=${empresaSelecionada.id}`);
+      toast.success("Empresa removida com sucesso!");
+      onDelete?.(empresaSelecionada);
     } catch (error) {
       console.error(error);
-      toast.error("Erro ao remover o aluno.");
+      toast.error("Erro ao remover a empresa.");
     } finally {
       setModalOpen(false);
-      setAlunoSelecionado(null);
+      setEmpresaSelecionada(null);
     }
   };
+  
+  
 
-  const goToViewAluno = (aluno: Aluno, modo: "visualizar" | "editar") => {
-    const query = encodeURIComponent(JSON.stringify({ ...aluno, modo }));
-    router.push(`/dashboard/secretaria/gerenciar-aluno/viewAluno?aluno=${query}`);
+  const goToViewEmpresa = (empresa: Empresa, modo: "visualizar" | "editar") => {
+    const query = encodeURIComponent(JSON.stringify({ ...empresa, modo }));
+    router.push(`/dashboard/secretaria/gerenciar-empresas/ViewEmpresa?empresa=${query}`);
   };
 
   return (
@@ -60,7 +54,6 @@ export function AlunosTable({ data, onView, onDelete }: AlunosTableProps) {
           <TableHeader>
             <TableRow>
               <TableHead>Nome</TableHead>
-              <TableHead>Curso</TableHead>
               <TableHead>Documento</TableHead>
               <TableHead className="text-center">Ações</TableHead>
             </TableRow>
@@ -68,22 +61,18 @@ export function AlunosTable({ data, onView, onDelete }: AlunosTableProps) {
 
           <TableBody>
             {data.length > 0 ? (
-              data.map((aluno) => (
-                <TableRow key={aluno.id}>
-                  <TableCell className="max-w-[150px] truncate" title={aluno.nome}>
-                    {aluno.nome}
+              data.map((empresa) => (
+                <TableRow key={empresa.id}>
+                  <TableCell className="max-w-[200px] truncate" title={empresa.nome}>
+                    {empresa.nome}
                   </TableCell>
-                  <TableCell className="max-w-[150px] truncate" title={aluno.curso}>
-                    {aluno.curso}
+                  <TableCell className="max-w-[200px] truncate" title={empresa.documento}>
+                    {empresa.documento}
                   </TableCell>
-                  <TableCell className="max-w-[150px] truncate" title={aluno.documento}>
-                    {aluno.documento}
-                  </TableCell>
-
                   <TableCell className="flex gap-2 justify-center">
                     {/* Visualizar */}
                     <button
-                      onClick={() => goToViewAluno(aluno, "visualizar")}
+                      onClick={() => goToViewEmpresa(empresa, "visualizar")}
                       className="text-blue-600 hover:text-blue-800"
                     >
                       <Eye className="w-4 h-4" />
@@ -91,7 +80,7 @@ export function AlunosTable({ data, onView, onDelete }: AlunosTableProps) {
 
                     {/* Editar */}
                     <button
-                      onClick={() => goToViewAluno(aluno, "editar")}
+                      onClick={() => goToViewEmpresa(empresa, "editar")}
                       className="text-green-600 hover:text-green-800"
                     >
                       <Pencil className="w-4 h-4" />
@@ -100,7 +89,7 @@ export function AlunosTable({ data, onView, onDelete }: AlunosTableProps) {
                     {/* Deletar */}
                     <button
                       onClick={() => {
-                        setAlunoSelecionado(aluno);
+                        setEmpresaSelecionada(empresa);
                         setModalOpen(true);
                       }}
                       className="text-red-500 hover:text-red-700"
@@ -112,8 +101,8 @@ export function AlunosTable({ data, onView, onDelete }: AlunosTableProps) {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={4} className="h-24 text-center">
-                  Nenhum aluno encontrado.
+                <TableCell colSpan={3} className="h-24 text-center">
+                  Nenhuma empresa encontrada.
                 </TableCell>
               </TableRow>
             )}
@@ -122,19 +111,19 @@ export function AlunosTable({ data, onView, onDelete }: AlunosTableProps) {
       </div>
 
       {/* Modal de Confirmação */}
-      {alunoSelecionado && (
+      {empresaSelecionada && (
         <ConfirmationModal
           open={modalOpen}
           title={
             <>
-              Deseja realmente remover o aluno <br />
-              <span className="font-bold">{alunoSelecionado.nome}</span>?
+              Deseja realmente remover a empresa <br />
+              <span className="font-bold">{empresaSelecionada.nome}</span>?
             </>
           }
           onConfirm={handleConfirmDelete}
           onCancel={() => {
             setModalOpen(false);
-            setAlunoSelecionado(null);
+            setEmpresaSelecionada(null);
           }}
         />
       )}

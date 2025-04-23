@@ -56,4 +56,13 @@ public class EmpresaController {
         }
         return ResponseEntity.ok(empresa.get());
     }
+
+    @GetMapping()
+    public ResponseEntity<?> listarEmpresas() {
+        try {
+            return ResponseEntity.ok(empresaRepository.findAll());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(new GenericResponse("Erro ao listar empresas", "erro"));
+        }
+    }
 }

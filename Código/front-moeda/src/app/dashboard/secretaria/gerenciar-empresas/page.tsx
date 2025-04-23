@@ -2,41 +2,70 @@
 
 import { useEffect, useState } from "react";
 import DashboardLayout from "@/components/dashboard/layout";
-import { AlunosTable } from "@/components/dashboard/list/alunoList";
-import { SearchAddAluno } from "@/components/dashboard/searchbar/addAluno";
+import { EmpresasTable } from "@/components/dashboard/list/empresasList";
+import { SearchAddEmpresa } from "@/components/dashboard/searchbar/addEmpresa";
 import { ConfiguracaoSecretaria, menuPrincipalSecretaria } from "@/utils/constants";
-import { Users } from "lucide-react";
+import { Building2 } from "lucide-react"; // Ícone diferente para empresas
 import { api } from "@/service/api";
 import ENDPOINTS from "@/service/endpoints";
-import { SearchAddEmpresa } from "@/components/dashboard/searchbar/addEmpresa";
 
-interface Aluno {
+interface Empresa {
   id: number;
   nome: string;
-  curso: string;
   documento: string;
 }
 
-export default function GerenciarAluno() {
+export default function GerenciarEmpresa() {
+  const [dados, setDados] = useState<Empresa[]>([]);
+  const [filtro, setFiltro] = useState("");
+  const [dadosFiltrados, setDadosFiltrados] = useState<Empresa[]>([]);
+
+  useEffect(() => {
+    const fetchEmpresas = async () => {
+      try {
+        const res = await api.get(ENDPOINTS.EMPRESA.GETALL);
+        setDados(res.data || []);
+      } catch (error) {
+        console.error("Erro ao buscar empresas:", error);
+      }
+    };
+
+    fetchEmpresas();
+  }, []);
+
+  useEffect(() => {
+    if (!filtro) {
+      setDadosFiltrados(dados);
+    } else {
+      const termo = filtro.toLowerCase();
+      setDadosFiltrados(
+        dados.filter((empresa) =>
+          empresa.nome.toLowerCase().includes(termo) ||
+          empresa.documento.toLowerCase().includes(termo)
+        )
+      );
+    }
+  }, [filtro, dados]);
+
   return (
     <DashboardLayout
       title="Gerenciar Empresas"
-      Icon={Users}
+      Icon={Building2}
       menuPrincipalItems={menuPrincipalSecretaria}
       configuracaoItems={ConfiguracaoSecretaria}
     >
       <div className="w-full flex flex-col justify-center gap-4">
-        {/* Barra de pesquisa + botão adicionar aluno */}
+        {/* Barra de pesquisa + botão adicionar empresa */}
         <div className="w-full mb-4">
           <SearchAddEmpresa setFiltro={setFiltro} />
         </div>
 
-        {/* Tabela de Alunos */}
-        <AlunosTable
+        {/* Tabela de Empresas */}
+        <EmpresasTable
           data={dadosFiltrados}
-          onDelete={(alunoDeletado) => {
-            setDados((prev) => prev.filter((a) => a.id !== alunoDeletado.id));
-          }}
+          onDelete={(empresaDeletada) =>
+            setDados((prev) => prev.filter((e) => e.id !== empresaDeletada.id))
+          }
         />
       </div>
     </DashboardLayout>
