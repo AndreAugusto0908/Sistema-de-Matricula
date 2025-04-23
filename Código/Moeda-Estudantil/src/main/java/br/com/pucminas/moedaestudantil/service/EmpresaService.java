@@ -1,5 +1,6 @@
 package br.com.pucminas.moedaestudantil.service;
 
+import br.com.pucminas.moedaestudantil.DTO.EmpresaDTO;
 import br.com.pucminas.moedaestudantil.model.Empresa;
 import br.com.pucminas.moedaestudantil.model.Vantagem;
 import br.com.pucminas.moedaestudantil.repository.EmpresaRepository;
@@ -21,14 +22,14 @@ public class EmpresaService {
         this.vantagemRepository = vantagemRepository;
     }
 
-    public GenericResponse criarEmpresa(Empresa empresa) {
-        Optional<Empresa> empresaExistente = empresaRepository.findById(empresa.getId());
-        if (empresaExistente.isPresent()) {
-            return new GenericResponse("Empresa já cadastrada no sistema", "erro");
-        }
+    public GenericResponse criarEmpresa(EmpresaDTO empresa) {
 
-        empresa.setTipoConta("Empresa");
-        empresaRepository.save(empresa);
+        Empresa empresaentity = new Empresa();
+        empresaentity.setDocumento(empresa.getDocumento());
+        empresaentity.setNome(empresa.getNome());
+        empresaentity.setTipoConta("Empresa");
+
+        empresaRepository.save(empresaentity);
         return new GenericResponse("Empresa cadastrada com sucesso", "sucesso");
     }
 
