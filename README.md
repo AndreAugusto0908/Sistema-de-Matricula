@@ -12,7 +12,7 @@ Este é um sistema de matrícula online desenvolvido como parte de um projeto ac
 ## 📌 Tecnologias Utilizadas
 
 ### 🔧 Backend (API REST)
-- Java 17
+- Java 21
 - Spring Boot
 - Spring Data JPA
 - Swagger/OpenAPI (documentação da API)
