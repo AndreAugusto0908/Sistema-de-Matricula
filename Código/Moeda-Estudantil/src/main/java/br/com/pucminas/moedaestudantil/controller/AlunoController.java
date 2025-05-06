@@ -5,6 +5,11 @@ import br.com.pucminas.moedaestudantil.model.Aluno;
 import br.com.pucminas.moedaestudantil.repository.AlunoRepository;
 import br.com.pucminas.moedaestudantil.responses.GenericResponse;
 import br.com.pucminas.moedaestudantil.service.AlunoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +28,13 @@ public class AlunoController {
         this.service = service;
     }
 
+    @Operation(summary = "Registrar um novo aluno")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Aluno registrado com sucesso",
+                    content = @Content(schema = @Schema(implementation = GenericResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Erro ao criar aluno",
+                    content = @Content(schema = @Schema(implementation = GenericResponse.class)))
+    })
     @PostMapping(value = "/registrar")
     public ResponseEntity<?> gerarAluno(@RequestBody AlunoDTO aluno) {
         try {
@@ -33,6 +45,13 @@ public class AlunoController {
         }
     }
 
+    @Operation(summary = "Atualizar dados de um aluno existente")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Aluno atualizado com sucesso",
+                    content = @Content(schema = @Schema(implementation = GenericResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Erro ao atualizar aluno",
+                    content = @Content(schema = @Schema(implementation = GenericResponse.class)))
+    })
     @PutMapping(value = "/atualizar")
     public ResponseEntity<?> atualizarAluno(@RequestBody AlunoDTO aluno) {
         try {
@@ -44,6 +63,13 @@ public class AlunoController {
         }
     }
 
+    @Operation(summary = "Deletar um aluno")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Aluno deletado com sucesso",
+                    content = @Content(schema = @Schema(implementation = GenericResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Erro ao deletar aluno",
+                    content = @Content(schema = @Schema(implementation = GenericResponse.class)))
+    })
     @DeleteMapping(value = "/deletar")
     public ResponseEntity<?> deletarAluno(@RequestBody AlunoDTO aluno) {
         try {
@@ -55,7 +81,13 @@ public class AlunoController {
 
 
     }
-
+    @Operation(summary = "Obter um aluno pelo ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Aluno encontrado com sucesso",
+                    content = @Content(schema = @Schema(implementation = Aluno.class))),
+            @ApiResponse(responseCode = "400", description = "ID inválido ou aluno não encontrado",
+                    content = @Content(schema = @Schema(implementation = GenericResponse.class)))
+    })
     @GetMapping(value = "/obter")
     public ResponseEntity<?> obterAluno(@RequestParam("id") Long id) {
             List<Aluno> aluno = alunoRepository.getAlunoById(id);
@@ -66,6 +98,13 @@ public class AlunoController {
 
     }
 
+    @Operation(summary = "Obter todos os alunos")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de alunos recuperada com sucesso",
+                    content = @Content(schema = @Schema(implementation = Aluno.class))),
+            @ApiResponse(responseCode = "400", description = "Nenhum aluno encontrado",
+                    content = @Content(schema = @Schema(implementation = GenericResponse.class)))
+    })
     @GetMapping()
     public ResponseEntity<?> obterTodosAlunos() {
         List<Aluno> alunos = alunoRepository.findAll();
