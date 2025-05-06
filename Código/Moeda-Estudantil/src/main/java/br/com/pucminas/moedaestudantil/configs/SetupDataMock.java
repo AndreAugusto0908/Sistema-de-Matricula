@@ -48,7 +48,7 @@ public class SetupDataMock implements ApplicationRunner {
         professor.setNome("Rodrigo");
         professor.setDepartamento("Departamento X");
         professor.setCurso("Engenharia de Software");
-        professor.setDocumento("12345678900");
+        professor.setDocumento("12345678901");
         professor.setSenha("123456");
         professor.setInstituicao("PUC Minas");
         professor.setTipoConta("Professor");
