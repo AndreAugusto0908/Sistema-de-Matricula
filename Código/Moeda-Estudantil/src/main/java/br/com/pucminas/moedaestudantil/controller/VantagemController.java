@@ -1,9 +1,11 @@
 package br.com.pucminas.moedaestudantil.controller;
 
+import br.com.pucminas.moedaestudantil.Infra.Security.SecurityConfigurations;
 import br.com.pucminas.moedaestudantil.model.Vantagem;
 import br.com.pucminas.moedaestudantil.repository.VantagemRepository;
-import br.com.pucminas.moedaestudantil.responses.GenericResponse;
+import br.com.pucminas.moedaestudantil.DTO.responses.GenericResponse;
 import br.com.pucminas.moedaestudantil.service.VantagemService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/vantagem")
+@SecurityRequirement(name = SecurityConfigurations.SECURITY)
 public class VantagemController {
 
     private final VantagemRepository vantagemRepository;

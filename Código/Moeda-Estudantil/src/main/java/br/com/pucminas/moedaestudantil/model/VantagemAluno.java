@@ -14,8 +14,8 @@ public class VantagemAluno {
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
-    @OneToOne
+    @ManyToOne
     private Aluno aluno;
-    @OneToOne
+    @ManyToOne
     private Vantagem vantagem;
 }

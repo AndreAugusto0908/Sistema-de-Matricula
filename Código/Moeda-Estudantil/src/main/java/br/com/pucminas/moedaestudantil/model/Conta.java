@@ -14,8 +14,23 @@ public class Conta {
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
+
     @Column(name = "saldo")
     private double saldo;
-    @OneToOne
-    private ProprietarioConta proprietario;
+
+    /**
+     * Debita o valor informado do saldo atual da conta.
+     *
+     * @param valor valor a ser debitado
+     * @return o novo saldo após o débito
+     */
+    public Double realizarCompra(Double valor) {
+        this.saldo -= valor;
+        return saldo;
+    }
+
+
+
+
+
 }

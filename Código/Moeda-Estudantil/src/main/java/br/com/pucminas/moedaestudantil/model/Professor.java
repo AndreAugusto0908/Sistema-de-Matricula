@@ -5,29 +5,24 @@ import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.Collection;
 import java.util.List;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Professor extends Usuario {
+public class Professor extends UsuarioConta {
     @Column(name = "departamento")
     private String departamento;
 
     @Override
-    public List<Transacao> consultarExtrato() {
-        return List.of();
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_PROFESSOR"));
     }
 
-    @Override
-    public double consultarSaldo() {
-        return 0;
-    }
 
-    @Override
-    public Transacao gerarTransacao() {
-        return null;
-    }
 }
