@@ -51,12 +51,21 @@ public class VantagemController {
         }
     }
 
-    @GetMapping("/obter")
+    @GetMapping("/obter/{id}")
     public ResponseEntity<?> obterVantagem(@RequestParam("id") Long id) {
         Optional<Vantagem> vantagem = vantagemRepository.findById(id);
         if (vantagem.isEmpty()) {
             return ResponseEntity.badRequest().body(new GenericResponse("Vantagem não encontrada", "erro"));
         }
         return ResponseEntity.ok(vantagem.get());
+    }
+
+    @GetMapping("/obter")
+    public ResponseEntity<?> obterTodasVantagens() {
+        try {
+            return ResponseEntity.ok(vantagemRepository.findAll());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(new GenericResponse("Erro ao listar vantagens", "erro"));
+        }
     }
 }
