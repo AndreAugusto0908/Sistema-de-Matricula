@@ -12,6 +12,16 @@ export const alunoSchema = z.object({
 
 export type AlunoFormData = z.infer<typeof alunoSchema>;
 
+export const loginUserSchema = z.object({
+    documento: z
+    .string()
+    .min(11, "O CPF deve ter pelo menos 11 caracteres")
+    .regex(/^\d{11}$/, "CPF deve conter apenas números e ter 11 dígitos"),
+    senha: z.string().min(6, "Senha deve ter no mínimo 6 caracteres")
+})
+
+export type loginUserSchema = z.infer<typeof loginUserSchema>
+
 export const empresaSchema = z.object({
   nome: z.string().min(1, "O nome é obrigatório"),
   documento: z.string().min(11, "O documento é obrigatório"),
