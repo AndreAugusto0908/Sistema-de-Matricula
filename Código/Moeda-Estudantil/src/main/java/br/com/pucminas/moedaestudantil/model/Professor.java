@@ -13,11 +13,14 @@ import java.util.List;
 
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor
 @Data
 public class Professor extends UsuarioConta {
     @Column(name = "departamento")
     private String departamento;
+
+    public Professor(){
+        this.role = "ROLE_PROFESSOR";
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

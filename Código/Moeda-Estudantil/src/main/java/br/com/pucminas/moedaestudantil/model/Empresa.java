@@ -23,6 +23,10 @@ public class Empresa extends UsuarioConta {
     @Column(name = "nome")
     protected String nome;
 
+    public Empresa(){
+        this.role = "ROLE_EMPRESA";
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_EMPRESA"));

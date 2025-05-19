@@ -2,6 +2,7 @@ package br.com.pucminas.moedaestudantil.service;
 
 import br.com.pucminas.moedaestudantil.DTO.AlunoDTO;
 import br.com.pucminas.moedaestudantil.model.Aluno;
+import br.com.pucminas.moedaestudantil.model.Conta;
 import br.com.pucminas.moedaestudantil.model.Transacao;
 import br.com.pucminas.moedaestudantil.model.VantagemAluno;
 import br.com.pucminas.moedaestudantil.repository.AlunoRepository;
@@ -32,6 +33,7 @@ public class AlunoService {
     public GenericResponse criarAluno(AlunoDTO aluno) {
         List<Aluno> alunoEmailIgual = this.alunoRepository.getAlunoByEmail(aluno.getEmail());
         Aluno alunoCpfIgual = this.alunoRepository.getAlunoByDocumento(aluno.getDocumento());
+        Conta conta = new Conta();
 
         if(alunoEmailIgual.isEmpty() && alunoCpfIgual == null) {
             Aluno alunoEntity = new Aluno();
@@ -39,10 +41,12 @@ public class AlunoService {
             alunoEntity.setEmail(aluno.getEmail());
             alunoEntity.setSenha(aluno.getSenha());
             alunoEntity.setCurso(aluno.getCurso());
+            alunoEntity.setConta(conta);
             alunoEntity.setRg(aluno.getRg());
             alunoEntity.setInstituicao("PUC Minas");
             alunoEntity.setEndereco(aluno.getEndereco());
             alunoEntity.setDocumento(aluno.getDocumento());
+            contaRepository.save(conta);
             alunoRepository.save(alunoEntity);
 
             return new GenericResponse("Aluno criado com sucesso", "sucesso");

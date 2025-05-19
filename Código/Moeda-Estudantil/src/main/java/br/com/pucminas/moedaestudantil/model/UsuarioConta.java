@@ -31,6 +31,8 @@ public abstract class UsuarioConta implements UserDetails {
     protected String instituicao;
     @Column(name = "curso")
     protected String curso;
+    @Column(name = "role")
+    protected String role;
     @Column(name = "senha", nullable = false)
     protected String senha;
 

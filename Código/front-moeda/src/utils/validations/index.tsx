@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const alunoSchema = z.object({
+export const createAlunoSchema = z.object({
   nome: z.string().min(3, "Nome é obrigatório"),
   documento: z.string().min(3, "Documento é obrigatório"),
   curso: z.string().min(2, "Curso é obrigatório"),
@@ -10,7 +10,7 @@ export const alunoSchema = z.object({
   senha: z.string().min(6, "Senha deve ter no mínimo 6 caracteres"),
 });
 
-export type AlunoFormData = z.infer<typeof alunoSchema>;
+export type createAlunoSchema = z.infer<typeof createAlunoSchema>;
 
 export const loginUserSchema = z.object({
     documento: z

@@ -16,7 +16,6 @@ import java.util.List;
 
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor
 @Data
 public class Aluno extends UsuarioConta {
     @Column(name = "rg")
@@ -25,6 +24,11 @@ public class Aluno extends UsuarioConta {
     private String endereco;
     @Column(name = "email")
     private String email;
+
+    public Aluno(){
+        this.role = "ROLE_ALUNO";
+    }
+
 
     /**
      * Realiza uma compra debitando o valor do saldo do aluno através de sua conta.
