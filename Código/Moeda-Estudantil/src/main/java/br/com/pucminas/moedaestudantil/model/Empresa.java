@@ -28,4 +28,9 @@ public class Empresa extends UsuarioConta {
         return List.of(new SimpleGrantedAuthority("ROLE_EMPRESA"));
     }
 
+    @Override
+    public String getTipo() {
+        return "EMPRESA";
+    }
+
 }

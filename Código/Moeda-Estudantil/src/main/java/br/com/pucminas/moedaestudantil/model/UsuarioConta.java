@@ -18,6 +18,7 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Getter
 @Setter
+@Table(name = "UsuarioConta")
 public abstract class UsuarioConta implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -73,5 +74,6 @@ public abstract class UsuarioConta implements UserDetails {
         return UserDetails.super.isEnabled();
     }
 
+    public abstract String getTipo();
 
 }

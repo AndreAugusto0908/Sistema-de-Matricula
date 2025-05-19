@@ -34,6 +34,7 @@ public class SecurityConfigurations {
                         .requestMatchers("/v3/api-docs/**", "swagger-ui/**", "swagger-ui.html").permitAll()
                         .requestMatchers("/vantagem-aluno/**").hasRole("ALUNO")
                         .requestMatchers("/aluno/**").permitAll()
+                        .requestMatchers("/transacao/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )

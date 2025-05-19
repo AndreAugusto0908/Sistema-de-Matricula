@@ -8,4 +8,5 @@ public interface UsuarioContaRepository extends JpaRepository<UsuarioConta, Long
 
     UserDetails findUserByDocumento(String documento);
 
+    UsuarioConta getUsuarioContaByDocumento(String documento);
 }

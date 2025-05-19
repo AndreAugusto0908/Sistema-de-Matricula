@@ -24,5 +24,10 @@ public class Professor extends UsuarioConta {
         return List.of(new SimpleGrantedAuthority("ROLE_PROFESSOR"));
     }
 
+    @Override
+    public String getTipo() {
+        return "PROFESSOR";
+    }
+
 
 }

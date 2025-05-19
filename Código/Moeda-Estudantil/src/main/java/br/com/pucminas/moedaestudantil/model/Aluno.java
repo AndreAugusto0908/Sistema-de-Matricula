@@ -40,4 +40,9 @@ public class Aluno extends UsuarioConta {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_ALUNO"));
     }
+
+    @Override
+    public String getTipo() {
+        return "ALUNO";
+    }
 }
