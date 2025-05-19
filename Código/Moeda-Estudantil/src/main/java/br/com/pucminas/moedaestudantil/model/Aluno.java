@@ -22,8 +22,6 @@ public class Aluno extends UsuarioConta {
     private String rg;
     @Column(name = "endereco")
     private String endereco;
-    @Column(name = "email")
-    private String email;
 
     public Aluno(){
         this.role = "ROLE_ALUNO";

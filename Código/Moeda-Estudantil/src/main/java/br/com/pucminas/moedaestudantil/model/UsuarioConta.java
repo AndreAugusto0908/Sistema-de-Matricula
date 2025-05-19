@@ -33,6 +33,8 @@ public abstract class UsuarioConta implements UserDetails {
     protected String curso;
     @Column(name = "role")
     protected String role;
+    @Column(name = "email", nullable = false)
+    private String email;
     @Column(name = "senha", nullable = false)
     protected String senha;
 
