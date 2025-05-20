@@ -11,4 +11,5 @@ public class CriarTransacaoDTO {
     private double valor;
     private String documentoRecebedor;
     private String documentoOrigem;
+    private String observacao;
 }

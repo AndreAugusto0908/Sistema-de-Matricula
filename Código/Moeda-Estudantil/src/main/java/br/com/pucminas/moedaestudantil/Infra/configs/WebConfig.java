@@ -1,4 +1,4 @@
-package br.com.pucminas.moedaestudantil.configs;
+package br.com.pucminas.moedaestudantil.Infra.configs;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

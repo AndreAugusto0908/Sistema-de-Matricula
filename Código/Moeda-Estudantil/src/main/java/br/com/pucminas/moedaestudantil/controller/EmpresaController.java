@@ -1,9 +1,10 @@
 package br.com.pucminas.moedaestudantil.controller;
 
 import br.com.pucminas.moedaestudantil.DTO.EmpresaDTO;
+import br.com.pucminas.moedaestudantil.Infra.Security.SecurityConfigurations;
 import br.com.pucminas.moedaestudantil.model.Empresa;
 import br.com.pucminas.moedaestudantil.repository.EmpresaRepository;
-import br.com.pucminas.moedaestudantil.responses.GenericResponse;
+import br.com.pucminas.moedaestudantil.DTO.responses.GenericResponse;
 import br.com.pucminas.moedaestudantil.service.EmpresaService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,7 +12,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.dao.EmptyResultDataAccessException;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/empresa")
+@SecurityRequirement(name = SecurityConfigurations.SECURITY)
 public class EmpresaController {
 
     private final EmpresaRepository empresaRepository;

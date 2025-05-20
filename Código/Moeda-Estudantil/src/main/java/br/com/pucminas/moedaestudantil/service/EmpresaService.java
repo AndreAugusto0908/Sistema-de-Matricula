@@ -5,7 +5,7 @@ import br.com.pucminas.moedaestudantil.model.Empresa;
 import br.com.pucminas.moedaestudantil.model.Vantagem;
 import br.com.pucminas.moedaestudantil.repository.EmpresaRepository;
 import br.com.pucminas.moedaestudantil.repository.VantagemRepository;
-import br.com.pucminas.moedaestudantil.responses.GenericResponse;
+import br.com.pucminas.moedaestudantil.DTO.responses.GenericResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,7 +27,6 @@ public class EmpresaService {
         Empresa empresaentity = new Empresa();
         empresaentity.setDocumento(empresa.getDocumento());
         empresaentity.setNome(empresa.getNome());
-        empresaentity.setTipoConta("Empresa");
 
         empresaRepository.save(empresaentity);
         return new GenericResponse("Empresa cadastrada com sucesso", "sucesso");

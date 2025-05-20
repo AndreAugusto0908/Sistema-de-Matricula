@@ -1,23 +1,25 @@
 package br.com.pucminas.moedaestudantil.controller;
 
 import br.com.pucminas.moedaestudantil.DTO.AlunoDTO;
+import br.com.pucminas.moedaestudantil.Infra.Security.SecurityConfigurations;
 import br.com.pucminas.moedaestudantil.model.Aluno;
 import br.com.pucminas.moedaestudantil.repository.AlunoRepository;
-import br.com.pucminas.moedaestudantil.responses.GenericResponse;
+import br.com.pucminas.moedaestudantil.DTO.responses.GenericResponse;
 import br.com.pucminas.moedaestudantil.service.AlunoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/aluno")
+@SecurityRequirement(name = SecurityConfigurations.SECURITY)
 public class AlunoController {
 
     private final AlunoRepository alunoRepository;

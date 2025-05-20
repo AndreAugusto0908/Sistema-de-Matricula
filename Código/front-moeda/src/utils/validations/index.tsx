@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const alunoSchema = z.object({
+export const createAlunoSchema = z.object({
   nome: z.string().min(3, "Nome é obrigatório"),
   documento: z.string().min(3, "Documento é obrigatório"),
   curso: z.string().min(2, "Curso é obrigatório"),
@@ -10,7 +10,17 @@ export const alunoSchema = z.object({
   senha: z.string().min(6, "Senha deve ter no mínimo 6 caracteres"),
 });
 
-export type AlunoFormData = z.infer<typeof alunoSchema>;
+export type createAlunoSchema = z.infer<typeof createAlunoSchema>;
+
+export const loginUserSchema = z.object({
+    documento: z
+    .string()
+    .min(11, "O CPF deve ter pelo menos 11 caracteres")
+    .regex(/^\d{11}$/, "CPF deve conter apenas números e ter 11 dígitos"),
+    senha: z.string().min(6, "Senha deve ter no mínimo 6 caracteres")
+})
+
+export type loginUserSchema = z.infer<typeof loginUserSchema>
 
 export const empresaSchema = z.object({
   nome: z.string().min(1, "O nome é obrigatório"),
@@ -18,3 +28,21 @@ export const empresaSchema = z.object({
 });
 
 export type EmpresaFormData = z.infer<typeof empresaSchema>;
+
+export const enviarEmailSchema = z.object({
+  email: z.string().email({ message: "E-mail inválido" }),
+});
+
+export type EnviarEmailSchema = z.infer<typeof enviarEmailSchema>;
+
+export const resetarSenhaSchema = z  .object({
+    senha: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
+    confirmarSenha: z.string(),
+  })
+  .refine((data) => data.senha === data.confirmarSenha, {
+    message: "As senhas não coincidem",
+    path: ["confirmarSenha"],
+  });
+
+
+export type ResetarSenhaSchema = z.infer<typeof resetarSenhaSchema>

@@ -47,7 +47,7 @@ export function AlunoForm({ closeModal }: AlunoFormProps) {
         className="flex flex-col gap-5 max-w-md mx-auto bg-white p-6 rounded-lg shadow-md"
       >
         <div className="flex flex-row gap-3 justify-center border-b pb-4">
-          <Pill />
+       
           <h2 className="text-xl font-semibold text-center text-[#161616]">Cadastrar Aluno</h2>
         </div>
 

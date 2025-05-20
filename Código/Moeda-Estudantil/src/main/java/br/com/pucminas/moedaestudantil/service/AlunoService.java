@@ -9,10 +9,12 @@ import br.com.pucminas.moedaestudantil.repository.AlunoRepository;
 import br.com.pucminas.moedaestudantil.repository.ContaRepository;
 import br.com.pucminas.moedaestudantil.repository.TransacaoRepository;
 import br.com.pucminas.moedaestudantil.repository.VantagemAlunoRepository;
-import br.com.pucminas.moedaestudantil.responses.GenericResponse;
+import br.com.pucminas.moedaestudantil.DTO.responses.GenericResponse;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AlunoService {
@@ -32,18 +34,20 @@ public class AlunoService {
     public GenericResponse criarAluno(AlunoDTO aluno) {
         List<Aluno> alunoEmailIgual = this.alunoRepository.getAlunoByEmail(aluno.getEmail());
         Aluno alunoCpfIgual = this.alunoRepository.getAlunoByDocumento(aluno.getDocumento());
+        Conta conta = new Conta();
 
         if(alunoEmailIgual.isEmpty() && alunoCpfIgual == null) {
             Aluno alunoEntity = new Aluno();
             alunoEntity.setNome(aluno.getNome());
             alunoEntity.setEmail(aluno.getEmail());
-            alunoEntity.setSenha(aluno.getSenha());
+            alunoEntity.setSenha(new BCryptPasswordEncoder().encode(aluno.getSenha()));
             alunoEntity.setCurso(aluno.getCurso());
+            alunoEntity.setConta(conta);
             alunoEntity.setRg(aluno.getRg());
             alunoEntity.setInstituicao("PUC Minas");
             alunoEntity.setEndereco(aluno.getEndereco());
-            alunoEntity.setTipoConta("Aluno");
             alunoEntity.setDocumento(aluno.getDocumento());
+            contaRepository.save(conta);
             alunoRepository.save(alunoEntity);
 
             return new GenericResponse("Aluno criado com sucesso", "sucesso");
@@ -56,12 +60,12 @@ public class AlunoService {
         if(aluno.getId() == null) {
             return new GenericResponse("É necessário enviar o Id do aluno para fazer a atualização", "erro");
         }
-        List<Aluno> alunoSistema = this.alunoRepository.getAlunoById(aluno.getId());
-        if(alunoSistema.isEmpty()) {
+        Optional<Aluno> alunoSistemaOptional = this.alunoRepository.findById(aluno.getId());
+        if (alunoSistemaOptional.isEmpty()) {
             return new GenericResponse("Não há um aluno com esses dados no sistema", "erro");
         }
 
-        Aluno alunoEncontrado = alunoSistema.get(0);
+        Aluno alunoEncontrado = alunoSistemaOptional.get();
         if(aluno.getNome() != null && !aluno.getNome().isEmpty()) {
             alunoEncontrado.setNome(aluno.getNome());
         }
@@ -98,11 +102,10 @@ public class AlunoService {
     public GenericResponse deletarAluno(Long id) {
         Aluno aluno = this.alunoRepository.findById(id).get();
         List<VantagemAluno> vantagemAlunos = vantagemAlunoRepository.getByAluno(aluno);
-        Conta contaAluno = this.contaRepository.getContaByProprietario(aluno);
-        List<Transacao> transacoes = transacaoRepository.getByOrigemOrDestino(contaAluno, contaAluno);
+        List<Transacao> transacoes = transacaoRepository.getByOrigemOrDestino(aluno.getConta(), aluno.getConta());
         vantagemAlunoRepository.deleteAll(vantagemAlunos);
         transacaoRepository.deleteAll(transacoes);
-        contaRepository.delete(contaAluno);
+        contaRepository.delete(aluno.getConta());
         alunoRepository.deleteById(id);
         return new GenericResponse("Aluno deletado com sucesso", "sucesso");
     }

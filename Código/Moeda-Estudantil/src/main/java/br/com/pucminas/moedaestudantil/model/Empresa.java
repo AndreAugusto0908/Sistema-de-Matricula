@@ -1,32 +1,29 @@
 package br.com.pucminas.moedaestudantil.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.Collection;
 import java.util.List;
 
 @Data
 @Entity
-public class Empresa extends ProprietarioConta {
+public class Empresa extends UsuarioConta {
 
-    @Column(name = "documento")
-    protected String documento;
-    @Column(name = "nome")
-    protected String nome;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long id;
 
-    @Override
-    public List<Transacao> consultarExtrato() {
-        return List.of();
+    public Empresa(){
+        this.role = "ROLE_EMPRESA";
     }
 
     @Override
-    public double consultarSaldo() {
-        return 0;
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_EMPRESA"));
     }
 
-    @Override
-    public Transacao gerarTransacao() {
-        return null;
-    }
 }

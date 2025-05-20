@@ -2,7 +2,7 @@ package br.com.pucminas.moedaestudantil.service;
 
 import br.com.pucminas.moedaestudantil.model.Vantagem;
 import br.com.pucminas.moedaestudantil.repository.VantagemRepository;
-import br.com.pucminas.moedaestudantil.responses.GenericResponse;
+import br.com.pucminas.moedaestudantil.DTO.responses.GenericResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

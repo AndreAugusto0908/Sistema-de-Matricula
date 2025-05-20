@@ -1,10 +1,11 @@
-package br.com.pucminas.moedaestudantil.configs;
+package br.com.pucminas.moedaestudantil.Infra.configs;
 
 import br.com.pucminas.moedaestudantil.model.*;
 import br.com.pucminas.moedaestudantil.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -49,43 +50,49 @@ public class SetupDataMock implements ApplicationRunner {
         professor.setDepartamento("Departamento X");
         professor.setCurso("Engenharia de Software");
         professor.setDocumento("12345678901");
-        professor.setSenha("123456");
+        professor.setEmail("renatamarcosandre@outlook.com");
+        professor.setSenha(new BCryptPasswordEncoder().encode("123456"));
         professor.setInstituicao("PUC Minas");
-        professor.setTipoConta("Professor");
+
+        Conta contaProfessor = new Conta();
+        contaProfessor.setSaldo(500.0);
+
+        this.contaRepository.save(contaProfessor);
+        professor.setConta(contaProfessor);
 
         this.professorRepository.save(professor);
 
         Empresa empresa = new Empresa();
         empresa.setNome("Praçaí");
         empresa.setDocumento("34967550000104");
-        empresa.setTipoConta("Empresa");
+        empresa.setEmail("dede@gmail.com");
+        empresa.setSenha(new BCryptPasswordEncoder().encode("123456"));
+
+        Conta contaEmpresa = new Conta();
+        contaEmpresa.setSaldo(5000.0);
+        this.contaRepository.save(contaEmpresa);
+        empresa.setConta(contaEmpresa);
         this.empresaRepository.save(empresa);
+
 
         Aluno aluno = new Aluno();
         aluno.setNome("Pedro C");
         aluno.setCurso("Engenharia de Software");
         aluno.setDocumento("12345678900");
-        aluno.setSenha("123456");
+        aluno.setSenha(new BCryptPasswordEncoder().encode("123456"));
         aluno.setInstituicao("PUC Minas");
         aluno.setEndereco("Rua José Onésimo de Abreu 20");
-        aluno.setEmail("pedro@gmail.com");
+        aluno.setEmail("andreaugustosilvacarvalho@gmail.com");
         aluno.setRg("MG-12345678-9");
-        aluno.setTipoConta("Aluno");
-        this.alunoRepository.save(aluno);
-
-        Conta contaProfessor = new Conta();
-        contaProfessor.setSaldo(500.0);
-        contaProfessor.setProprietario(professor);
-
-        Conta contaEmpresa = new Conta();
-        contaEmpresa.setSaldo(5000.0);
-        contaEmpresa.setProprietario(empresa);
 
         Conta contaAluno = new Conta();
-        contaAluno.setSaldo(0);
-        contaAluno.setProprietario(aluno);
+        contaAluno.setSaldo(500);
+        this.contaRepository.save(contaAluno);
 
-        contaRepository.saveAll(List.of(contaAluno, contaProfessor, contaEmpresa));
+        aluno.setConta(contaAluno);
+
+        this.alunoRepository.save(aluno);
+
 
         Vantagem vantagem = new Vantagem();
         vantagem.setDescricao("Desconto de 10% no açai");
@@ -100,6 +107,13 @@ public class SetupDataMock implements ApplicationRunner {
         vantagem2.setEmpresa(empresa);
         vantagem2.setValorMoedas(550.0);
         this.vantagemRepository.save(vantagem2);
+
+        Vantagem vantagem3 = new Vantagem();
+        vantagem3.setDescricao("Vantagem Boladona");
+        vantagem3.setFoto("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDSqrnuzruFFmsja8bQH0go-EFdTrDlFFy-w&s");
+        vantagem3.setEmpresa(empresa);
+        vantagem3.setValorMoedas(50.0);
+        this.vantagemRepository.save(vantagem3);
 
         Transacao transacao = new Transacao();
         transacao.setData(LocalDate.now().minusDays(2));

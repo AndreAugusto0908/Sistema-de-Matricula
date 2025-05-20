@@ -1,4 +1,4 @@
-package br.com.pucminas.moedaestudantil.responses;
+package br.com.pucminas.moedaestudantil.DTO.responses;
 
 
 import lombok.AllArgsConstructor;

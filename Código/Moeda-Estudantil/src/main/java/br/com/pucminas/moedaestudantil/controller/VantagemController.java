@@ -1,9 +1,11 @@
 package br.com.pucminas.moedaestudantil.controller;
 
+import br.com.pucminas.moedaestudantil.Infra.Security.SecurityConfigurations;
 import br.com.pucminas.moedaestudantil.model.Vantagem;
 import br.com.pucminas.moedaestudantil.repository.VantagemRepository;
-import br.com.pucminas.moedaestudantil.responses.GenericResponse;
+import br.com.pucminas.moedaestudantil.DTO.responses.GenericResponse;
 import br.com.pucminas.moedaestudantil.service.VantagemService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/vantagem")
+@SecurityRequirement(name = SecurityConfigurations.SECURITY)
 public class VantagemController {
 
     private final VantagemRepository vantagemRepository;
@@ -48,12 +51,21 @@ public class VantagemController {
         }
     }
 
-    @GetMapping("/obter")
+    @GetMapping("/obter/{id}")
     public ResponseEntity<?> obterVantagem(@RequestParam("id") Long id) {
         Optional<Vantagem> vantagem = vantagemRepository.findById(id);
         if (vantagem.isEmpty()) {
             return ResponseEntity.badRequest().body(new GenericResponse("Vantagem não encontrada", "erro"));
         }
         return ResponseEntity.ok(vantagem.get());
+    }
+
+    @GetMapping("/obter")
+    public ResponseEntity<?> obterTodasVantagens() {
+        try {
+            return ResponseEntity.ok(vantagemRepository.findAll());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(new GenericResponse("Erro ao listar vantagens", "erro"));
+        }
     }
 }

@@ -26,6 +26,8 @@ export default function ViewAluno() {
   const [aluno, setAluno] = useState<Aluno | null>(null);
 
   useEffect(() => {
+    if (!searchParams) return;
+    
     const alunoParam = searchParams.get("aluno");
     if (alunoParam) {
       try {

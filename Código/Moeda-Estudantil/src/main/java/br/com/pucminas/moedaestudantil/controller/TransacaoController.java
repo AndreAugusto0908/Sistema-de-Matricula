@@ -1,8 +1,10 @@
 package br.com.pucminas.moedaestudantil.controller;
 
 import br.com.pucminas.moedaestudantil.DTO.CriarTransacaoDTO;
+import br.com.pucminas.moedaestudantil.Infra.Security.SecurityConfigurations;
 import br.com.pucminas.moedaestudantil.model.*;
 import br.com.pucminas.moedaestudantil.repository.*;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +15,7 @@ import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/transacao")
+@SecurityRequirement(name = SecurityConfigurations.SECURITY)
 public class TransacaoController {
 
     private final TransacaoRepository transacaoRepository;
@@ -42,8 +45,8 @@ public class TransacaoController {
             Empresa emp = empresaRepository.getEmpresaByDocumento(docReceb);
 
             if(aluno == null || emp == null) { return ResponseEntity.internalServerError().build(); }
-            origem = contaRepository.getContasByProprietario_Id(aluno.getId());
-            recebedor = contaRepository.getContasByProprietario_Id(emp.getId());
+            origem = aluno.getConta();
+            recebedor = emp.getConta();
 
             origem.setSaldo(origem.getSaldo() - dto.getValor());
             recebedor.setSaldo(recebedor.getSaldo() - dto.getValor());
@@ -53,8 +56,8 @@ public class TransacaoController {
             Aluno aluno = alunoRepository.getAlunoByDocumento(docReceb);
             Professor professor = professorRepository.getProfessorByDocumento(docOrigem);
             if(aluno == null || professor == null) { return ResponseEntity.internalServerError().build(); }
-            origem = contaRepository.getContasByProprietario_Id(professor.getId());
-            recebedor = contaRepository.getContasByProprietario_Id(aluno.getId());
+            origem = professor.getConta();
+            recebedor = aluno.getConta();
 
             origem.setSaldo(origem.getSaldo() - dto.getValor());
             recebedor.setSaldo(recebedor.getSaldo() + dto.getValor());

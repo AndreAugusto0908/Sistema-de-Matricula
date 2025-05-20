@@ -1,37 +1,45 @@
 package br.com.pucminas.moedaestudantil.model;
 
+import br.com.pucminas.moedaestudantil.DTO.RequestResgatarVantagem;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+
+import java.util.Collection;
 import java.util.List;
 
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor
 @Data
-public class Aluno extends Usuario{
+public class Aluno extends UsuarioConta {
     @Column(name = "rg")
     private String rg;
     @Column(name = "endereco")
     private String endereco;
-    @Column(name = "email")
-    private String email;
 
-    @Override
-    public List<Transacao> consultarExtrato() {
-        return List.of();
+    public Aluno(){
+        this.role = "ROLE_ALUNO";
+    }
+
+
+    /**
+     * Realiza uma compra debitando o valor do saldo do aluno através de sua conta.
+     *
+     * @param valor valor da compra a ser debitado
+     * @return o saldo restante após a compra
+     */
+    public Double realizarCompra(Double valor) {
+        return this.conta.realizarCompra(valor);
     }
 
     @Override
-    public double consultarSaldo() {
-        return 0;
-    }
-
-    @Override
-    public Transacao gerarTransacao() {
-        return null;
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_ALUNO"));
     }
 }
