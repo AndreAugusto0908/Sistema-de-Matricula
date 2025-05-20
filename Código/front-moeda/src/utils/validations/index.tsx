@@ -34,3 +34,15 @@ export const enviarEmailSchema = z.object({
 });
 
 export type EnviarEmailSchema = z.infer<typeof enviarEmailSchema>;
+
+export const resetarSenhaSchema = z  .object({
+    senha: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
+    confirmarSenha: z.string(),
+  })
+  .refine((data) => data.senha === data.confirmarSenha, {
+    message: "As senhas não coincidem",
+    path: ["confirmarSenha"],
+  });
+
+
+export type ResetarSenhaSchema = z.infer<typeof resetarSenhaSchema>

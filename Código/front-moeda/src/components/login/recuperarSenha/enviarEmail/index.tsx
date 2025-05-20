@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import DefaultLogin from "../default-login";
+import DefaultLogin from "../../default-login";
 import { Input } from "@/components/ui/input";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -22,7 +22,8 @@ export default function EnviarEmail() {
         try {
             const response = await api.post(`/esqueceuSenha/enviarEmail/${data.email}`);
             toast.success("Email enviado com Sucesso!");
-            router.push("/informar-codigo");
+            router.push("/recuperarSenha/informarCodigo");
+            sessionStorage.setItem("email", data.email);
             return response.data;
         } catch (error) {
             toast.error("Erro ao enviar e-mail. Tente novamente.");
@@ -48,10 +49,10 @@ export default function EnviarEmail() {
                         <Input id="email" type="email" autoComplete="off" {...register("email")} className="w-full" />
                     </div>
                     <Button
-                        className="bg-[#FFD700] text-black hover:bg-[#e7db6a] hover:cursor-pointer"
+                        className="bg-[#FFD700] text-black hover:bg-[#e7db6a] hover:cursor-pointer w-full"
                         type="submit"
                     >
-                        Enviar Email
+                        Verificar Codigo
                     </Button>
                 </form>
 

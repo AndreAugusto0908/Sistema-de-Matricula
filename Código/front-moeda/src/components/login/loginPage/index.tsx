@@ -8,10 +8,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useContext } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const { signIn } = useContext(AuthContext);
-
+  const router = useRouter();
+  
   const { register, handleSubmit } = useForm<loginUserSchema>({
     resolver: zodResolver(loginUserSchema),
   })
@@ -42,7 +44,9 @@ export default function LoginPage() {
               <Input id="senha" type="password" {...register("senha")} className="w-full" />
             </div>
             <div>
-              <span className="text-gray-400 hover:cursor-pointer">Esqueceu a senha?</span>
+              <span className="text-gray-400 hover:cursor-pointer"
+              onClick={() => router.push("/recuperarSenha/informarEmail")}
+              >Esqueceu a senha?</span>
             </div>
             <Button
               className="bg-[#FFD700] text-black hover:bg-[#e7db6a] hover:cursor-pointer"

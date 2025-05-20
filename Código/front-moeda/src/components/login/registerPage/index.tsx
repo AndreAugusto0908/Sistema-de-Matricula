@@ -102,7 +102,8 @@ export default function RegisterPage(){
             </div>
             <div className="flex flex-row gap-3">
               <span className="text-gray-400">Já possui conta?</span>
-              <span className="hover:cursor-pointer text-gray-700">Realize Login</span>
+              <span className="hover:cursor-pointer text-gray-700"
+              onClick={() => router.push("/")}>Realize Login</span>
             </div>
 
             <Button

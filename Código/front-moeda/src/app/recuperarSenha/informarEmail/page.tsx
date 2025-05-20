@@ -1,4 +1,4 @@
-import EnviarEmail from "@/components/login/enviarEmail";
+import EnviarEmail from "@/components/login/recuperarSenha/enviarEmail";
 
 export default function informarEmail(){
     return(
