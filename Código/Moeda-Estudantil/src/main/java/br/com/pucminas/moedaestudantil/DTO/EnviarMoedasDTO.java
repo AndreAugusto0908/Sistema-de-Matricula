@@ -7,9 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CriarTransacaoDTO {
-    private double valor;
+public class EnviarMoedasDTO {
     private String documentoRecebedor;
-    private String documentoOrigem;
+    private Double valor;
     private String observacao;
 }

@@ -19,6 +19,8 @@ export default function ViewEmpresa() {
   const [empresa, setEmpresa] = useState<Empresa | null>(null);
 
   useEffect(() => {
+    if (!searchParams) return;
+    
     const empresaParam = searchParams.get("empresa");
     if (empresaParam) {
       try {

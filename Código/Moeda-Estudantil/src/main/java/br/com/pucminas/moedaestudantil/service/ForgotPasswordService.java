@@ -44,11 +44,11 @@ public class ForgotPasswordService {
 
 
         int otp = otpGenerator();
-        MailBodyDTO mailBody = MailBodyDTO.builder()
-                .to(email)
-                .text("Olá!\n\nSeu código de verificação é: " + otp + "\n\nUse este código para completar seu processo. Caso não tenha solicitado, ignore este e-mail.")
-                .subject("Seu código de verificação" + otp)
-                .build();
+        MailBodyDTO mailBody = new MailBodyDTO(
+            email,
+            "Seu código de verificação" + otp,
+            "Olá!\n\nSeu código de verificação é: " + otp + "\n\nUse este código para completar seu processo. Caso não tenha solicitado, ignore este e-mail."
+        );
 
         ForgotPassword fp = ForgotPassword.builder()
                 .otp(otp)
