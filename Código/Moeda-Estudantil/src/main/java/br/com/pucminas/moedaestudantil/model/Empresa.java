@@ -17,12 +17,6 @@ public class Empresa extends UsuarioConta {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "documento")
-    protected String documento;
-
-    @Column(name = "nome")
-    protected String nome;
-
     public Empresa(){
         this.role = "ROLE_EMPRESA";
     }

@@ -50,7 +50,7 @@ public class SetupDataMock implements ApplicationRunner {
         professor.setDepartamento("Departamento X");
         professor.setCurso("Engenharia de Software");
         professor.setDocumento("12345678901");
-        professor.setEmail("andreaugustosilvacarvalho@gmail.com");
+        professor.setEmail("renatamarcosandre@outlook.com");
         professor.setSenha(new BCryptPasswordEncoder().encode("123456"));
         professor.setInstituicao("PUC Minas");
 
@@ -65,15 +65,15 @@ public class SetupDataMock implements ApplicationRunner {
         Empresa empresa = new Empresa();
         empresa.setNome("Praçaí");
         empresa.setDocumento("34967550000104");
-        empresa.setEmail("andreaugustosilvacarvalho@gmail.com");
+        empresa.setEmail("dede@gmail.com");
         empresa.setSenha(new BCryptPasswordEncoder().encode("123456"));
 
         Conta contaEmpresa = new Conta();
         contaEmpresa.setSaldo(5000.0);
         this.contaRepository.save(contaEmpresa);
-
         empresa.setConta(contaEmpresa);
         this.empresaRepository.save(empresa);
+
 
         Aluno aluno = new Aluno();
         aluno.setNome("Pedro C");

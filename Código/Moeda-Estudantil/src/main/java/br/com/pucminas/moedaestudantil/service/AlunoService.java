@@ -10,6 +10,7 @@ import br.com.pucminas.moedaestudantil.repository.ContaRepository;
 import br.com.pucminas.moedaestudantil.repository.TransacaoRepository;
 import br.com.pucminas.moedaestudantil.repository.VantagemAlunoRepository;
 import br.com.pucminas.moedaestudantil.DTO.responses.GenericResponse;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,7 +40,7 @@ public class AlunoService {
             Aluno alunoEntity = new Aluno();
             alunoEntity.setNome(aluno.getNome());
             alunoEntity.setEmail(aluno.getEmail());
-            alunoEntity.setSenha(aluno.getSenha());
+            alunoEntity.setSenha(new BCryptPasswordEncoder().encode(aluno.getSenha()));
             alunoEntity.setCurso(aluno.getCurso());
             alunoEntity.setConta(conta);
             alunoEntity.setRg(aluno.getRg());
