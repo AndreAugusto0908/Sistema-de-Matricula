@@ -21,7 +21,14 @@ export default function RegisterPage(){
 
         async function handleRegisterUser(data: createAlunoSchema) {
         try {
-            const response = await api.post("/aluno/registrar", data);
+            const cleanData = {
+              ...data,
+              documento: data.documento.replace(/\D/g, ''),
+              rg: data.rg.replace(/\D/g, ''),
+            };
+
+
+            const response = await api.post("/aluno/registrar", cleanData);
             toast.success("Aluno registrado com sucesso!");
             router.push("/")
             return response.data;

@@ -35,6 +35,7 @@ public class SecurityConfigurations {
                         .requestMatchers("/vantagem-aluno/**").hasRole("ALUNO")
                         .requestMatchers("/aluno/registrar").permitAll()
                         .requestMatchers("/esqueceuSenha/**").permitAll()
+                        .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
