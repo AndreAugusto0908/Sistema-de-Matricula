@@ -28,3 +28,9 @@ export const empresaSchema = z.object({
 });
 
 export type EmpresaFormData = z.infer<typeof empresaSchema>;
+
+export const enviarEmailSchema = z.object({
+  email: z.string().email({ message: "E-mail inválido" }),
+});
+
+export type EnviarEmailSchema = z.infer<typeof enviarEmailSchema>;
