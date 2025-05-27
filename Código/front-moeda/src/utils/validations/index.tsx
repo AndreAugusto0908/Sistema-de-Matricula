@@ -16,7 +16,7 @@ export const loginUserSchema = z.object({
     documento: z
     .string()
     .min(11, "O CPF deve ter pelo menos 11 caracteres")
-    .regex(/^\d{11}$/, "CPF deve conter apenas números e ter 11 dígitos"),
+    .regex(/^\d{14}$/, "CPF deve conter apenas números e ter 11 dígitos"),
     senha: z.string().min(6, "Senha deve ter no mínimo 6 caracteres")
 })
 

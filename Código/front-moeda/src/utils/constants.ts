@@ -1,4 +1,4 @@
-import { LayoutDashboard, Coins, History, User, Settings, Building2, Users, LogOut } from "lucide-react";
+import { LayoutDashboard, Coins, History, User, Settings, Building2, Users, LogOut, Briefcase } from "lucide-react";
 
 export const userDropdownItems = [
   {
@@ -45,6 +45,31 @@ export const ConfiguracaoSecretaria = [
   {
     nome: "Configurações",
     url: "/dashboard/secretaria/configuracoes",
+    icon: Settings
+  }
+];
+export const menuPrincipalEmpresa = [
+  {
+    nome: "Visão Geral",
+    url: "/dashboard/empresa",
+    icon: LayoutDashboard
+  },
+  {
+    nome: "Gerenciar Alunos",
+    url: "/dashboard/empresa/gerenciar-vantagens",
+    icon: Briefcase
+  }
+];
+
+export const ConfiguracaoEmpresa = [
+  {
+    nome: "Perfil",
+    url: "/dashboard/empresa/perfil",
+    icon: User
+  },
+  {
+    nome: "Configurações",
+    url: "/dashboard/empresa/configuracoes",
     icon: Settings
   }
 ];
