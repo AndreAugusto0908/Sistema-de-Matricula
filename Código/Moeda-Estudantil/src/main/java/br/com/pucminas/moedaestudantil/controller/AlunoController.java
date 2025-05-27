@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +39,7 @@ public class AlunoController {
                     content = @Content(schema = @Schema(implementation = GenericResponse.class)))
     })
     @PostMapping(value = "/registrar")
-    public ResponseEntity<?> gerarAluno(@RequestBody AlunoDTO aluno) {
+    public ResponseEntity<?> gerarAluno(@RequestBody @Valid AlunoDTO aluno) {
         try {
             GenericResponse response = this.service.criarAluno(aluno);
             return ResponseEntity.ok().body(response);

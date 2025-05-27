@@ -68,4 +68,14 @@ public class VantagemController {
             return ResponseEntity.internalServerError().body(new GenericResponse("Erro ao listar vantagens", "erro"));
         }
     }
+
+    @GetMapping("/obterPorEmpresa")
+    public ResponseEntity<?> obterPorEmpresaVantagens(@RequestParam(name = "empresa") String empresa) {
+        try {
+            return ResponseEntity.ok(vantagemRepository.findAll());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(new GenericResponse("Erro ao listar vantagens", "erro"));
+        }
+    }
+
 }
