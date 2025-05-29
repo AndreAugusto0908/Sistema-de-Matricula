@@ -56,7 +56,7 @@ public class AlunoController {
                     content = @Content(schema = @Schema(implementation = GenericResponse.class)))
     })
     @PutMapping(value = "/atualizar")
-    public ResponseEntity<?> atualizarAluno(@RequestBody AlunoDTO aluno) {
+    public ResponseEntity<?> atualizarAluno(@RequestBody @Valid AlunoDTO aluno) {
         try {
             GenericResponse response = this.service.atualizarAluno(aluno);
 
@@ -74,7 +74,7 @@ public class AlunoController {
                     content = @Content(schema = @Schema(implementation = GenericResponse.class)))
     })
     @DeleteMapping(value = "/deletar")
-    public ResponseEntity<?> deletarAluno(@RequestBody AlunoDTO aluno) {
+    public ResponseEntity<?> deletarAluno(@RequestBody @Valid AlunoDTO aluno) {
         try {
             GenericResponse response = this.service.deletarAluno(aluno.getId());
             return ResponseEntity.ok().body(response);

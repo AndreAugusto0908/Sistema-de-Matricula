@@ -49,9 +49,9 @@ public class SetupDataMock implements ApplicationRunner {
         professor.setNome("Rodrigo");
         professor.setDepartamento("Departamento X");
         professor.setCurso("Engenharia de Software");
-        professor.setDocumento("12345678901");
+        professor.setDocumento("14434357670");
         professor.setEmail("renatamarcosandre@outlook.com");
-        professor.setSenha(new BCryptPasswordEncoder().encode("123456"));
+        professor.setSenha(new BCryptPasswordEncoder().encode("Teste123*"));
         professor.setInstituicao("PUC Minas");
 
         Conta contaProfessor = new Conta();
@@ -66,7 +66,7 @@ public class SetupDataMock implements ApplicationRunner {
         empresa.setNome("Praçaí");
         empresa.setDocumento("34967550000104");
         empresa.setEmail("dede@gmail.com");
-        empresa.setSenha(new BCryptPasswordEncoder().encode("123456"));
+        empresa.setSenha(new BCryptPasswordEncoder().encode("Teste123*"));
 
         Conta contaEmpresa = new Conta();
         contaEmpresa.setSaldo(5000.0);
@@ -79,7 +79,7 @@ public class SetupDataMock implements ApplicationRunner {
         aluno.setNome("Pedro C");
         aluno.setCurso("Engenharia de Software");
         aluno.setDocumento("12345678900");
-        aluno.setSenha(new BCryptPasswordEncoder().encode("123456"));
+        aluno.setSenha(new BCryptPasswordEncoder().encode("Teste123*"));
         aluno.setInstituicao("PUC Minas");
         aluno.setEndereco("Rua José Onésimo de Abreu 20");
         aluno.setEmail("andreaugustosilvacarvalho@gmail.com");

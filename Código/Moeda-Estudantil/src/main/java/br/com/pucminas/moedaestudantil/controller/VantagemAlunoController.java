@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,7 +50,7 @@ public class VantagemAlunoController {
                     required = true,
                     content = @Content(schema = @Schema(implementation = RequestResgatarVantagem.class))
             )
-            @RequestBody RequestResgatarVantagem vantagemAluno) {
+            @RequestBody @Valid RequestResgatarVantagem vantagemAluno) {
         try {
             vantagemAlunoService.resgatarVantagem(vantagemAluno);
             return ResponseEntity.ok().body("Sucesso");
