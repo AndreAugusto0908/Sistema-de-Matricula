@@ -8,7 +8,13 @@ import { AuthContext } from "@/contexts/AuthContext";
 import { parseCookies } from "nookies";
 import { VantagemsTable } from "@/components/dashboard/list/vantagemList";
 import { SearchAddVantagem } from "@/components/dashboard/searchbar/addVantagem";
+import { api } from "@/service/api";
+import handleError from "@/app/ErrorHandling";
 
+
+interface VantagemData {
+  data: Vantagem[];
+}
 
 interface Vantagem {
   id: number;
@@ -24,27 +30,23 @@ const GerenciarVantagens = () => {
     const [ vantagens, setVantagens ] = useState<Vantagem[]>([])
 
     useEffect(() =>{
-        const cookies = parseCookies();
-        // fetch('http://localhost:8080/vantagem/obter')
-        fetch(`http://localhost:8080/vantagem/obterPorEmpresa?empresa=${user?.documento}`,
-        {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ` + cookies['nextauth.token'],
-                
-          }
-        })
-        .then((resp) => resp.json())
-        .then((jsonResp) => {
-            setVantagens(jsonResp)
-        })
+      makeRequest()
     }, [])
 
+    const makeRequest = async () => {
+      try {
+        const cookies = parseCookies();
+        const res = await api.get<VantagemData>(`/vantagem/obterPorEmpresa?empresa=${user?.documento}`)
+        setVantagens(res.data.data)
+      } catch (error) {
+        console.error("Erro ao buscar vantagens:", error);
+        handleError(error);
+      }
     
     const dadosFiltrados = vantagens.filter((vantagem) =>
         vantagem.descricao.toLowerCase().includes(filtro.toLowerCase())
     );
+  }
 
   return (
     <DashboardLayout

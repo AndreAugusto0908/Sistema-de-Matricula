@@ -8,6 +8,7 @@ import { ConfirmationModal } from "../../modal/confirmationModal";
 import { api } from "@/service/api";
 import { ENDPOINTS } from "@/service/endpoints";
 import { toast } from "sonner";
+import handleError from "@/app/ErrorHandling";
 
 interface Aluno {
   id: number;
@@ -61,7 +62,7 @@ export default function VisualizarAluno({ aluno }: VisualizarAlunoProps) {
       setIsEditing(false);
     } catch (error) {
       console.error(error);
-      toast.error("Erro ao atualizar aluno.");
+      handleError(error);
     } finally {
       setModalOpen(false);
     }

@@ -8,6 +8,7 @@ import { ConfiguracaoSecretaria, menuPrincipalSecretaria } from "@/utils/constan
 import { Users } from "lucide-react";
 import { api } from "@/service/api";
 import ENDPOINTS from "@/service/endpoints";
+import { handleError } from "@/app/ErrorHandling";
 
 interface Aluno {
   id: number;
@@ -25,6 +26,7 @@ export default function GerenciarAluno() {
       const { data } = await api.get<Aluno[]>(`${ENDPOINTS.ALUNO.GETALL}`);
       setDados(data);
     } catch (error) {
+      handleError(error);
       console.error("Erro ao buscar alunos:", error);
     }
   };

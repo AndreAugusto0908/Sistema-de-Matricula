@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { ConfirmationModal } from "../../modal/confirmationModal";
 import { Input } from "@/components/ui/input";
+import handleError from "@/app/ErrorHandling";
 
 
 
@@ -52,7 +53,7 @@ const VisualizarVantagens = ({vantagem}:VisualizarAlunoProps) => {
       setIsEditing(false);
     } catch (error) {
       console.error(error);
-      toast.error("Erro ao atualizar vantagem.");
+      handleError(error);
     } finally {
       setModalOpen(false);
     }

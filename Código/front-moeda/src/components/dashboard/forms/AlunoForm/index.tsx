@@ -11,6 +11,7 @@ import { api } from "@/service/api";
 import { ENDPOINTS } from "@/service/endpoints";
 import { toast } from "sonner";
 import { IMaskInput } from "react-imask";
+import handleError from "@/app/ErrorHandling";
 
 interface AlunoFormProps {
   closeModal: () => void;
@@ -33,8 +34,8 @@ export function AlunoForm({ closeModal }: AlunoFormProps) {
       closeModal();
       reset();
     } catch (error) {
+      handleError(error);
       console.error("Erro ao cadastrar aluno:", error);
-      toast.error("Erro ao cadastrar aluno.");
     } finally {
       setLoading(false);
     }

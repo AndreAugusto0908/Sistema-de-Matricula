@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { api } from "@/service/api";
 import { ENDPOINTS } from "@/service/endpoints";
 import { IMaskInput } from "react-imask";
+import handleError from "@/app/ErrorHandling";
 
 interface EmpresaFormProps {
   closeModal: () => void;
@@ -33,7 +34,7 @@ export function EmpresaForm({ closeModal }: EmpresaFormProps) {
       reset();
     } catch (error) {
       console.error("Erro ao cadastrar empresa:", error);
-      toast.error("Erro ao cadastrar empresa.");
+      handleError(error);
     } finally {
       setLoading(false);
     }

@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { api } from "@/service/api";
 import { Button } from "@/components/ui/button";
+import handleError from "@/app/ErrorHandling";
 
 export default function InformarCodigo() {
     const [code, setCode] = useState(Array(6).fill(""));
@@ -27,7 +28,7 @@ export default function InformarCodigo() {
             toast.success("Código verificado com sucesso!");
             router.push("/recuperarSenha/novaSenha");
         } catch (error) {
-            toast.error("Código inválido ou expirado.");
+            handleError(error);
             console.error(error);
         }
     }

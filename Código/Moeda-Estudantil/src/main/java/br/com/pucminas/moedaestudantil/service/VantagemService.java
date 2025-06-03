@@ -1,5 +1,6 @@
 package br.com.pucminas.moedaestudantil.service;
 
+import br.com.pucminas.moedaestudantil.DTO.VantagemDTO;
 import br.com.pucminas.moedaestudantil.model.Vantagem;
 import br.com.pucminas.moedaestudantil.repository.VantagemRepository;
 import br.com.pucminas.moedaestudantil.DTO.responses.GenericResponse;
@@ -16,12 +17,17 @@ public class VantagemService {
         this.vantagemRepository = vantagemRepository;
     }
 
-    public GenericResponse criarVantagem(Vantagem vantagem) {
-        vantagemRepository.save(vantagem);
+    public GenericResponse criarVantagem(VantagemDTO vantagem) {
+        Vantagem va = new Vantagem();
+        va.setDescricao(vantagem.getDescricao());
+        va.setValorMoedas(vantagem.getValorMoedas());
+        va.setFoto(vantagem.getFoto());
+        va.setEmpresa(vantagem.getEmpresa());
+        vantagemRepository.save(va);
         return new GenericResponse("Vantagem criada com sucesso", "sucesso");
     }
 
-    public GenericResponse atualizarVantagem(Vantagem vantagem) {
+    public GenericResponse atualizarVantagem(VantagemDTO vantagem) {
         if (vantagem.getId() == null) {
             return new GenericResponse("ID da vantagem não informado", "erro");
         }

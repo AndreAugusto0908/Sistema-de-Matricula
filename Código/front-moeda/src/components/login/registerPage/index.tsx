@@ -10,6 +10,7 @@ import { cpfMask, rgMask } from "@/utils/masks";
 import { api } from "@/service/api";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import handleError from "@/app/ErrorHandling";
 
 export default function RegisterPage(){
 
@@ -33,7 +34,7 @@ export default function RegisterPage(){
             router.push("/")
             return response.data;
         } catch (error) {
-            toast.error("Erro ao criar aluno. Tente novamente.");
+            handleError(error);
             console.error(error);
         }
         }

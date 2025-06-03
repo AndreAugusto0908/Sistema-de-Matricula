@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
+import handleError from "@/app/ErrorHandling";
 
 export default function NovaSenha(){
 
@@ -32,7 +33,7 @@ export default function NovaSenha(){
             router.push("/");
             return response.data;
         } catch (error) {
-            toast.error("Erro ao alterar senha. Tente novamente.");
+            handleError(error);
             console.error(error);
         }
     }

@@ -41,7 +41,7 @@ export function AlunosTable({ data, onView, onDelete }: AlunosTableProps) {
       onDelete?.(alunoSelecionado);
     } catch (error) {
       console.error(error);
-      toast.error("Erro ao remover o aluno.");
+      handl
     } finally {
       setModalOpen(false);
       setAlunoSelecionado(null);

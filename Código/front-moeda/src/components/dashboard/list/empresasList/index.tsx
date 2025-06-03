@@ -8,6 +8,7 @@ import { api } from "@/service/api";
 import ENDPOINTS from "@/service/endpoints";
 import { Eye, Trash2, Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
+import handleError from "@/app/ErrorHandling";
 
 interface Empresa {
   id: number;
@@ -33,7 +34,7 @@ export function EmpresasTable({ data, onDelete }: EmpresasTableProps) {
       onDelete?.(empresaSelecionada);
     } catch (error) {
       console.error(error);
-      toast.error("Erro ao remover a empresa.");
+      handleError(error);
     } finally {
       setModalOpen(false);
       setEmpresaSelecionada(null);

@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { api } from "@/service/api";
 import { enviarEmailSchema, EnviarEmailSchema } from "@/utils/validations";
+import handleError from "@/app/ErrorHandling";
 
 export default function EnviarEmail() {
 

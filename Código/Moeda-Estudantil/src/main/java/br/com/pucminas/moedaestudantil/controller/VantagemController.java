@@ -1,5 +1,6 @@
 package br.com.pucminas.moedaestudantil.controller;
 
+import br.com.pucminas.moedaestudantil.DTO.VantagemDTO;
 import br.com.pucminas.moedaestudantil.Infra.Security.SecurityConfigurations;
 import br.com.pucminas.moedaestudantil.model.Vantagem;
 import br.com.pucminas.moedaestudantil.repository.VantagemRepository;
@@ -25,7 +26,7 @@ public class VantagemController {
     }
 
     @PostMapping("/criar")
-    public ResponseEntity<?> criarVantagem(@RequestBody Vantagem vantagem) {
+    public ResponseEntity<?> criarVantagem(@RequestBody VantagemDTO vantagem) {
         try {
             return ResponseEntity.ok(vantagemService.criarVantagem(vantagem));
         } catch (Exception e) {
@@ -34,7 +35,7 @@ public class VantagemController {
     }
 
     @PutMapping("/atualizar")
-    public ResponseEntity<?> atualizarVantagem(@RequestBody Vantagem vantagem) {
+    public ResponseEntity<?> atualizarVantagem(@RequestBody VantagemDTO vantagem) {
         try {
             return ResponseEntity.ok(vantagemService.atualizarVantagem(vantagem));
         } catch (Exception e) {

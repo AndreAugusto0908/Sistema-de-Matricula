@@ -8,6 +8,7 @@ import { ConfirmationModal } from "../../modal/confirmationModal";
 import { api } from "@/service/api";
 import { ENDPOINTS } from "@/service/endpoints";
 import { toast } from "sonner";
+import handleError from "@/app/ErrorHandling";
 
 interface Empresa {
   id: number;
@@ -49,7 +50,7 @@ export default function VisualizarEmpresa({ empresa }: VisualizarEmpresaProps) {
       setIsEditing(false);
     } catch (error) {
       console.error(error);
-      toast.error("Erro ao atualizar empresa.");
+      handleError(error);
     } finally {
       setModalOpen(false);
     }

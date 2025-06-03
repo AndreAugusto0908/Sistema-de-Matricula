@@ -8,6 +8,7 @@ import { api } from "@/service/api";
 import ENDPOINTS from "@/service/endpoints";
 import { Eye, Trash2, Pencil } from "lucide-react"; // Adicionado Pencil (ícone lápis)
 import { useRouter } from "next/navigation";
+import handleError from "@/app/ErrorHandling";
 
 interface Vantagem {
   id: number;
@@ -41,7 +42,7 @@ export function VantagemsTable({ data, onView, onDelete }: VantagemsTableProps) 
       onDelete?.(vantagemSelecionado);
     } catch (error) {
       console.error(error);
-      toast.error("Erro ao remover o vantagem.");
+      handleError(error);
     } finally {
       setModalOpen(false);
       setVantagemSelecionado(null);

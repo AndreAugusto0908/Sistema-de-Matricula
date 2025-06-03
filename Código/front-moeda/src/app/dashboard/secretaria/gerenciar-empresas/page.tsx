@@ -8,6 +8,7 @@ import { ConfiguracaoSecretaria, menuPrincipalSecretaria } from "@/utils/constan
 import { Building2 } from "lucide-react"; // Ícone diferente para empresas
 import { api } from "@/service/api";
 import ENDPOINTS from "@/service/endpoints";
+import handleError from "@/app/ErrorHandling";
 
 interface Empresa {
   id: number;
@@ -26,6 +27,7 @@ export default function GerenciarEmpresa() {
         const res = await api.get(ENDPOINTS.EMPRESA.GETALL);
         setDados(res.data || []);
       } catch (error) {
+        handleError(error);
         console.error("Erro ao buscar empresas:", error);
       }
     };
