@@ -2,6 +2,7 @@ package br.com.pucminas.moedaestudantil.service;
 
 import br.com.pucminas.moedaestudantil.DTO.MailBodyDTO;
 import br.com.pucminas.moedaestudantil.DTO.RequestAlterarSenha;
+import br.com.pucminas.moedaestudantil.exceptions.handlers.EmailInvalidoException;
 import br.com.pucminas.moedaestudantil.model.ForgotPassword;
 import br.com.pucminas.moedaestudantil.model.UsuarioConta;
 import br.com.pucminas.moedaestudantil.repository.ForgotPasswordRepository;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Date;
-import java.util.Objects;
 import java.util.Random;
 
 @Service
@@ -40,7 +40,7 @@ public class ForgotPasswordService {
 
     public String verificarEmail(String email) {
         UsuarioConta usuario = usuarioContaRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("Endereço de E-mail invalido"));
+                .orElseThrow(() -> new EmailInvalidoException("Endereço de E-mail não Encontrado"));
 
 
         int otp = otpGenerator();

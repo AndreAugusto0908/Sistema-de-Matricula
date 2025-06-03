@@ -14,9 +14,13 @@ export default function NovaSenha(){
 
         const router = useRouter();
 
-        const { register, handleSubmit } = useForm<ResetarSenhaSchema>({
-                resolver: zodResolver(resetarSenhaSchema),
-        })
+        const {
+            register,
+            handleSubmit,
+            formState: { errors, isSubmitting },
+        } = useForm<ResetarSenhaSchema>({
+            resolver: zodResolver(resetarSenhaSchema),
+        });
 
     async function handleResetarSEnha(data: ResetarSenhaSchema) {
         try {
@@ -49,10 +53,16 @@ export default function NovaSenha(){
                     <div>
                         <label htmlFor="senha">Nova Senha</label>
                         <Input id="senha" type="password" autoComplete="off" {...register("senha")} className="w-full" />
+                        {errors.senha && (
+                            <p className="text-red-500 text-xs mt-1">{errors.senha.message}</p>
+                        )}
                     </div>
                     <div>
                         <label htmlFor="confirmarSenha">Confirmar Senha</label>
                         <Input id="confirmarSenha" type="password" autoComplete="off" {...register("confirmarSenha")} className="w-full" />
+                        {errors.confirmarSenha && (
+                            <p className="text-red-500 text-xs mt-1">{errors.confirmarSenha.message}</p>
+                        )}
                     </div>
                     <Button
                         className="bg-[#FFD700] text-black hover:bg-[#e7db6a] hover:cursor-pointer w-full"

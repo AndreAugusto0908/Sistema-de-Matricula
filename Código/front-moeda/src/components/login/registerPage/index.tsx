@@ -15,16 +15,16 @@ export default function RegisterPage(){
 
     const router = useRouter();
 
-      const { register, handleSubmit } = useForm<createAlunoSchema>({
-        resolver: zodResolver(createAlunoSchema),
-      })
+        const { register, handleSubmit, formState: { errors } } = useForm<createAlunoSchema>({
+          resolver: zodResolver(createAlunoSchema),
+        });
 
         async function handleRegisterUser(data: createAlunoSchema) {
         try {
             const cleanData = {
               ...data,
               documento: data.documento.replace(/\D/g, ''),
-              rg: data.rg.replace(/\D/g, ''),
+              rg: data.rg.replace(/[^a-zA-Z0-9]/g, '').toUpperCase(),
             };
 
 
@@ -53,6 +53,7 @@ export default function RegisterPage(){
             <div>
               <label htmlFor="nome">Nome</label>
               <Input id="nome" {...register("nome")} className="w-full" autoComplete="off" />
+              {errors.nome && <span className="text-red-500 text-sm">{errors.nome.message}</span>}
             </div>
             <div>
               <label htmlFor="documento">CPF</label>
@@ -68,6 +69,7 @@ export default function RegisterPage(){
                     return register("documento").onChange(e);
                     }}
                 />
+                {errors.documento && <span className="text-red-500 text-sm">{errors.documento.message}</span>}
             </div>
             <div>
               <label htmlFor="rg">RG</label>
@@ -83,22 +85,27 @@ export default function RegisterPage(){
                     return register("rg").onChange(e);
                     }}
                 />
+                {errors.rg && <span className="text-red-500 text-sm">{errors.rg.message}</span>}
             </div>
             <div>
               <label htmlFor="curso">Curso</label>
               <Input id="curso" type="text" autoComplete="off" {...register("curso")} className="w-full" />
+              {errors.curso && <span className="text-red-500 text-sm">{errors.curso.message}</span>}
             </div>
             <div>
               <label htmlFor="email">Email</label>
               <Input id="email" type="email" autoComplete="off" {...register("email")} className="w-full" />
+              {errors.email && <span className="text-red-500 text-sm">{errors.email.message}</span>}
             </div>
             <div>
               <label htmlFor="endereco">Endereço</label>
               <Input id="endereco" type="text" autoComplete="off" {...register("endereco")} className="w-full" />
+              {errors.endereco && <span className="text-red-500 text-sm">{errors.endereco.message}</span>}
             </div>
             <div>
               <label htmlFor="senha">Senha</label>
               <Input id="senha" type="password" {...register("senha")} className="w-full" />
+              {errors.senha && <span className="text-red-500 text-sm">{errors.senha.message}</span>}
             </div>
             <div className="flex flex-row gap-3">
               <span className="text-gray-400">Já possui conta?</span>

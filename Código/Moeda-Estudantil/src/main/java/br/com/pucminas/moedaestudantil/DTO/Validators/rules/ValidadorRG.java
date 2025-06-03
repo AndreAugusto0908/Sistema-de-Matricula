@@ -18,44 +18,12 @@ public class ValidadorRG implements ConstraintValidator<RG, String>{
             return true;
         }
 
-        String cleanedRg = rg.replaceAll("[^\\dXx]", "");
+        // Remove espaços e converte para maiúsculas
+        String cleanedRg = rg.trim().toUpperCase();
 
-        if (cleanedRg.length() != 9) {
-            return false;
-        }
-
-        return isValidRG(cleanedRg);
+        // Verifica se está no formato: 2 letras + 8 dígitos numéricos (sem verificador)
+        return cleanedRg.matches("^[A-Z]{2}\\d{8}$");
     }
 
-    /**
-     * Valida um RG com base na regra de cálculo do dígito verificador.
-     */
-    private boolean isValidRG(String rg) {
-        try {
-            int sum = 0;
-            for (int i = 0; i < 8; i++) {
-                int digit = Character.getNumericValue(rg.charAt(i));
-                sum += digit * (9 - i);
-            }
-
-            char checkDigitChar = rg.charAt(8);
-            int checkDigit;
-
-            if (checkDigitChar == 'X' || checkDigitChar == 'x') {
-                checkDigit = 10;
-            } else if (Character.isDigit(checkDigitChar)) {
-                checkDigit = Character.getNumericValue(checkDigitChar);
-            } else {
-                return false;
-            }
-
-            int expectedDigit = (sum % 11);
-            expectedDigit = expectedDigit > 9 ? 0 : expectedDigit;
-
-            return checkDigit == expectedDigit;
-        } catch (Exception e) {
-            return false;
-        }
-    }
 }
 
