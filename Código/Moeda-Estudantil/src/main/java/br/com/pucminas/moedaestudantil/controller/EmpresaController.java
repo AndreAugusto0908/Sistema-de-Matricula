@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,7 +41,7 @@ public class EmpresaController {
                     content = @Content(schema = @Schema(implementation = GenericResponse.class)))
     })
     @PostMapping("/registrar")
-    public ResponseEntity<?> registrarEmpresa(@RequestBody EmpresaDTO empresa) {
+    public ResponseEntity<?> registrarEmpresa(@RequestBody @Valid EmpresaDTO empresa) {
         try {
             return ResponseEntity.ok(empresaService.criarEmpresa(empresa));
         } catch (Exception e) {

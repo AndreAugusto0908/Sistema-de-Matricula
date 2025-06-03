@@ -5,6 +5,7 @@ import br.com.pucminas.moedaestudantil.Infra.Security.SecurityConfigurations;
 import br.com.pucminas.moedaestudantil.model.*;
 import br.com.pucminas.moedaestudantil.repository.*;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,7 +34,7 @@ public class TransacaoController {
     }
 
     @PostMapping
-    public ResponseEntity<?> realizarTransacao(@RequestBody CriarTransacaoDTO dto){
+    public ResponseEntity<?> realizarTransacao(@RequestBody @Valid CriarTransacaoDTO dto){
         String docOrigem = dto.getDocumentoOrigem();
         String docReceb = dto.getDocumentoRecebedor();
         docOrigem = docOrigem.replaceAll("[^0-9]", "");
