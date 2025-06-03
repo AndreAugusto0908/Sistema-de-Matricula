@@ -1,6 +1,18 @@
-import FormModal from "../../modal/formModal/index"
-import { MouseEventHandler } from "react"
+'use client'
 
+import { api } from "@/service/api"
+import FormModal from "../../modal/formModal/index"
+import { MouseEventHandler, useContext } from "react"
+import handleError from "@/app/ErrorHandling"
+import { AuthContext } from "@/contexts/AuthContext"
+
+
+type User = {
+    nome: string;
+    documento: string;
+    role: string;
+    id: string;
+}
 
 
 type ButtonObject = {
@@ -11,7 +23,8 @@ type ButtonObject = {
 
 type InputObject = {
     tipo: string,
-    title: string
+    title: string,
+    idInput?: string
 }
 
 interface FormModalProps {
@@ -26,13 +39,40 @@ interface VantagemFormProps {
     closeModal: () => void;
 }
 
+
+
 export const VantagemForm = ({closeModal} : VantagemFormProps) => {
+    const { user } = useContext(AuthContext);
+
+    const criarVantagem = async (descricao: string, preco: number, imagem: string) => {
+        try {
+            const response = await api.post("/vantagem/criar", {
+                descricao: descricao,
+                valorMoedas: preco,
+                foto: imagem,
+                empresa: user?.id
+            });
+            console.log("Vantagem criada com sucesso:", response);
+        } catch (error) {
+            console.error("Erro ao criar vantagem:", error);
+            handleError(error);
+            throw error;
+        }
+    }
+
     const formModal: FormModalProps = {
     modalTitle: "Adicionar Vantagem",
     buttons: [
         {
             title: "Salvar",
-            action: () => { console.log("salvar"); closeModal() },
+            action: (event) => { 
+                event.preventDefault();
+                const descricao = (document.querySelector('#input_form_modalDescrição') as HTMLInputElement).value;
+                const preco = parseFloat((document.querySelector('#input_form_modalPreço') as HTMLInputElement).value);
+                const imagem = (document.querySelector('#input_form_modallink') as HTMLInputElement).value;
+                criarVantagem(descricao, preco, imagem)
+                closeModal() 
+            },
             className: "bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded"
         },
         {
@@ -44,15 +84,18 @@ export const VantagemForm = ({closeModal} : VantagemFormProps) => {
     inputs: [
         {
             tipo: "text",
-            title: "Descrição"
+            title: "Descrição",
+            idInput: "input_form_modalDescrição"
         },
         {
             tipo: "number",
-            title: "Preço"
+            title: "Preço",
+            idInput: "input_form_modalPreço"
         },
         {
             tipo: "text",
-            title: "link da imagem"
+            title: "link da imagem",
+            idInput: "input_form_modallink"
         }
     ]
 }

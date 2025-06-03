@@ -55,7 +55,7 @@ export const menuPrincipalEmpresa = [
     icon: LayoutDashboard
   },
   {
-    nome: "Gerenciar Alunos",
+    nome: "Gerenciar Vantagens",
     url: "/dashboard/empresa/gerenciar-vantagens",
     icon: Briefcase
   }

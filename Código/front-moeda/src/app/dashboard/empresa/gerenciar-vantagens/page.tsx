@@ -12,10 +12,6 @@ import { api } from "@/service/api";
 import handleError from "@/app/ErrorHandling";
 
 
-interface VantagemData {
-  data: Vantagem[];
-}
-
 interface Vantagem {
   id: number;
   valorMoedas: number;
@@ -36,17 +32,18 @@ const GerenciarVantagens = () => {
     const makeRequest = async () => {
       try {
         const cookies = parseCookies();
-        const res = await api.get<VantagemData>(`/vantagem/obterPorEmpresa?empresa=${user?.documento}`)
-        setVantagens(res.data.data)
+        const res = await api.get<Vantagem[]>(`/vantagem/obterPorEmpresa?empresa=${user?.documento}`)
+        console.log("Vantagens:", res);
+        setVantagens(res.data)
       } catch (error) {
         console.error("Erro ao buscar vantagens:", error);
         handleError(error);
       }
-    
+  }
+
     const dadosFiltrados = vantagens.filter((vantagem) =>
         vantagem.descricao.toLowerCase().includes(filtro.toLowerCase())
     );
-  }
 
   return (
     <DashboardLayout

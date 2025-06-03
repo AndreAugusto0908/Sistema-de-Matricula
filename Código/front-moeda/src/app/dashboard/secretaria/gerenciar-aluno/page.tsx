@@ -8,7 +8,7 @@ import { ConfiguracaoSecretaria, menuPrincipalSecretaria } from "@/utils/constan
 import { Users } from "lucide-react";
 import { api } from "@/service/api";
 import ENDPOINTS from "@/service/endpoints";
-import { handleError } from "@/app/ErrorHandling";
+import handleError from "@/app/ErrorHandling";
 
 interface Aluno {
   id: number;

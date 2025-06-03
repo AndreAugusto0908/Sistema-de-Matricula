@@ -38,6 +38,8 @@ public class SecurityConfigurations {
                         .requestMatchers("/vantagem/**").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/aluno/**").permitAll()
+                        .requestMatchers("/empresa/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
