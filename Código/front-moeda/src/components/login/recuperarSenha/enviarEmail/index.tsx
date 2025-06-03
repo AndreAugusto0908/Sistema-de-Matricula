@@ -14,21 +14,29 @@ export default function EnviarEmail() {
 
     const router = useRouter();
 
-    const { register, handleSubmit } = useForm<EnviarEmailSchema>({
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isSubmitting },
+    } = useForm<EnviarEmailSchema>({
         resolver: zodResolver(enviarEmailSchema),
-    })
+    });
+
+    console.log("Erros de validação:", errors);
 
     async function handleEnviarEmail(data: EnviarEmailSchema) {
         try {
+            console.log("Erros de validação:", errors);
             const response = await api.post(`/esqueceuSenha/enviarEmail/${data.email}`);
             toast.success("Email enviado com Sucesso!");
             router.push("/recuperarSenha/informarCodigo");
             sessionStorage.setItem("email", data.email);
             return response.data;
-        } catch (error) {
-            toast.error("Erro ao enviar e-mail. Tente novamente.");
-            console.error(error);
-        }
+            } catch (error: any) {
+                const errorMessage = error?.response?.data?.message || "Erro ao enviar e-mail. Tente novamente.";
+                toast.error(errorMessage);
+                console.error("Erro ao enviar email:", error);
+            }
     }
 
 
@@ -47,12 +55,15 @@ export default function EnviarEmail() {
                     <div>
                         <label htmlFor="email">Email</label>
                         <Input id="email" type="email" autoComplete="off" {...register("email")} className="w-full" />
+                        {errors.email && (
+                            <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
+                        )}
                     </div>
                     <Button
                         className="bg-[#FFD700] text-black hover:bg-[#e7db6a] hover:cursor-pointer w-full"
                         type="submit"
                     >
-                        Verificar Codigo
+                        Enviar Email
                     </Button>
                 </form>
 

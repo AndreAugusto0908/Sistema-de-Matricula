@@ -78,7 +78,7 @@ public class SetupDataMock implements ApplicationRunner {
         Aluno aluno = new Aluno();
         aluno.setNome("Pedro C");
         aluno.setCurso("Engenharia de Software");
-        aluno.setDocumento("12345678900");
+        aluno.setDocumento("97945153615");
         aluno.setSenha(new BCryptPasswordEncoder().encode("Teste123*"));
         aluno.setInstituicao("PUC Minas");
         aluno.setEndereco("Rua José Onésimo de Abreu 20");

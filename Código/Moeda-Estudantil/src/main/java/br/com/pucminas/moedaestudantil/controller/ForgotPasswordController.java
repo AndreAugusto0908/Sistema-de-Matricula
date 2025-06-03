@@ -1,8 +1,13 @@
 package br.com.pucminas.moedaestudantil.controller;
 
 import br.com.pucminas.moedaestudantil.DTO.RequestAlterarSenha;
+import br.com.pucminas.moedaestudantil.DTO.Validators.interfaces.Email;
+import br.com.pucminas.moedaestudantil.DTO.responses.GenericResponse;
+import br.com.pucminas.moedaestudantil.exceptions.handlers.EmailInvalidoException;
 import br.com.pucminas.moedaestudantil.service.ForgotPasswordService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +19,15 @@ public class ForgotPasswordController {
     private ForgotPasswordService forgotPasswordService;
 
     @PostMapping("/enviarEmail/{email}")
-    public ResponseEntity<String> enviarEmail(@PathVariable String email){
-        String message = forgotPasswordService.verificarEmail(email);
-        return ResponseEntity.ok(message);
+    public ResponseEntity<?> enviarEmail(@PathVariable String email){
+        try {
+            String message = forgotPasswordService.verificarEmail(email);
+            return ResponseEntity.ok(message);
+        } catch (EmailInvalidoException e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new GenericResponse(e.getMessage(), "erro"));
+        }
     }
 
     @PostMapping("/verificarOtp/{otp}/{email}")
@@ -26,7 +37,7 @@ public class ForgotPasswordController {
 
     @PostMapping("/alterarsenha/{email}")
     public ResponseEntity<?> alterarsenha(
-            @RequestBody RequestAlterarSenha alterarSenha,
+            @RequestBody @Valid RequestAlterarSenha alterarSenha,
             @PathVariable String email){
         return forgotPasswordService.alterarSenha(email, alterarSenha);
     }

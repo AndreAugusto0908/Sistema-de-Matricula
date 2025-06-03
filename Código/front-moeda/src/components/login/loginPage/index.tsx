@@ -14,9 +14,14 @@ export default function LoginPage() {
   const { signIn } = useContext(AuthContext);
   const router = useRouter();
   
-  const { register, handleSubmit } = useForm<loginUserSchema>({
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<loginUserSchema>({
     resolver: zodResolver(loginUserSchema),
-  })
+  });
 
   async function handleLoginUser(data: loginUserSchema) {
     console.log(data)
@@ -38,10 +43,17 @@ export default function LoginPage() {
             <div>
               <label htmlFor="login">Login</label>
               <Input id="login" {...register("documento")} className="w-full" />
+              {errors.documento && (
+              <p className="text-red-500 text-xs mt-1">{errors.documento.message}</p>
+            )}
             </div>
             <div>
               <label htmlFor="senha">Senha</label>
               <Input id="senha" type="password" {...register("senha")} className="w-full" />
+
+              {errors.senha && (
+              <p className="text-red-500 text-xs mt-1">{errors.senha.message}</p>
+              )}
             </div>
             <div>
               <span className="text-gray-400 hover:cursor-pointer"
