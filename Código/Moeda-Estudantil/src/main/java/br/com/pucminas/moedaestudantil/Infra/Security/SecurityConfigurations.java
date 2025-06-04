@@ -40,6 +40,7 @@ public class SecurityConfigurations {
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/aluno/**").permitAll()
                         .requestMatchers("/empresa/**").permitAll()
+                        .requestMatchers("/transacao/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

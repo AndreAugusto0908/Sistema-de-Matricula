@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { VantagemForm } from "../../forms/VantagemForm/index"; 
 import ExtratoModal from "../../modal/extratoModal";
 
-export function SearchAddVantagem({ setFiltro }: { setFiltro: (value: string) => void }) {
+export function SearchGerenciarVantagemAluno({ setFiltro }: { setFiltro: (value: string) => void }) {
   const [search, setSearch] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenExtrato, setIsModalOpenExtrato] = useState(false);
@@ -34,8 +34,7 @@ export function SearchAddVantagem({ setFiltro }: { setFiltro: (value: string) =>
           className="flex items-center gap-2 bg-[#FFD700] text-black hover:bg-[#e6c200] transition-all font-semibold"
           onClick={() => setIsModalOpen(true)}
         >
-          Adicionar Vantagem
-          <Plus size={18} />
+          Comprar Vantagem
         </Button>
         <Button
           className="flex items-center gap-2 bg-[#FFFFF] text-black transition-all font-semibold"

@@ -73,6 +73,31 @@ export const ConfiguracaoEmpresa = [
     icon: Settings
   }
 ];
+export const menuPrincipalaluno = [
+  {
+    nome: "Visão Geral",
+    url: "/dashboard/aluno",
+    icon: LayoutDashboard
+  },
+  {
+    nome: "Gerenciar Vantagens",
+    url: "/dashboard/aluno/gerenciar-vantagens",
+    icon: Briefcase
+  }
+];
+
+export const Configuracaoaluno = [
+  {
+    nome: "Perfil",
+    url: "/dashboard/aluno/perfil",
+    icon: User
+  },
+  {
+    nome: "Configurações",
+    url: "/dashboard/aluno/configuracoes",
+    icon: Settings
+  }
+];
 
 export const menuPrincipalProfessor = [
   {
