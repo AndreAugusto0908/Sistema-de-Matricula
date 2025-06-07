@@ -49,7 +49,7 @@ const HistoricoModal = ({closeModal} : VantagemFormProps) => {
             }
 
             console.log('ID da empresa:', user?.id);
-            const response = await api.get(`/vantagem-aluno/empresa?empresa=${user?.id}`);
+            const response = await api.get(`/vantagem-aluno/empresa?idEmpresa=${user?.id}`);
             setHistorico(response.data);
             setError(null);
             console.log('Resposta da API:', response.data);
