@@ -8,15 +8,15 @@ import { AuthContext } from "@/contexts/AuthContext";
 import { parseCookies } from "nookies";
 import { VantagemsTable } from "@/components/dashboard/list/vantagemList";
 import { SearchGerenciarVantagemAluno } from "@/components/dashboard/searchbar/manageVantagem";
-import { api } from "@/service/api";
+import api from "@/service/api";
 import handleError from "@/app/ErrorHandling";
 
 
 interface Vantagem {
-  id: number;
-  valorMoedas: number;
+  nomeEmpresa: string;
   descricao: string;
-  foto: string;
+  valor: number;
+  nomeAluno: string;
 }
 
 const GerenciarVantagens = () => {
@@ -32,7 +32,7 @@ const GerenciarVantagens = () => {
     const makeRequest = async () => {
       try {
         const cookies = parseCookies();
-        const res = await api.get<Vantagem[]>(`/vantagem/obterPorEmpresa?empresa=${user?.documento}`)
+        const res = await api.get<Vantagem[]>(`/vantagem-aluno/obterPorAluno?id=${user?.id}`)
         console.log("Vantagens:", res);
         setVantagens(res.data)
       } catch (error) {

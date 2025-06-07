@@ -8,7 +8,7 @@ import { AuthContext } from "@/contexts/AuthContext";
 import { parseCookies } from "nookies";
 import { VantagemsTable } from "@/components/dashboard/list/vantagemList";
 import { SearchAddVantagem } from "@/components/dashboard/searchbar/addVantagem";
-import { api } from "@/service/api";
+import api from "@/service/api";
 import handleError from "@/app/ErrorHandling";
 
 

@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Building2 } from "lucide-react";
 import { toast } from "sonner";
-import { api } from "@/service/api";
+import api from "@/service/api";
 import { ENDPOINTS } from "@/service/endpoints";
 import { IMaskInput } from "react-imask";
 import handleError from "@/app/ErrorHandling";

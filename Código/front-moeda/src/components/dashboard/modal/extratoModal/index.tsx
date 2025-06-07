@@ -1,6 +1,6 @@
 'use client'
 
-import { api } from "@/service/api"
+import api from "@/service/api"
 import FormModal from "../../modal/formModal/index"
 import { MouseEventHandler, useContext, useEffect, useState } from "react"
 import handleError from "@/app/ErrorHandling"

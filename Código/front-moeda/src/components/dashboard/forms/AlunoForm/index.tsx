@@ -7,7 +7,7 @@ import { AlunoFormData, alunoSchema } from "@/utils/validations";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Pill } from "lucide-react";
-import { api } from "@/service/api";
+import api from "@/service/api";
 import { ENDPOINTS } from "@/service/endpoints";
 import { toast } from "sonner";
 import { IMaskInput } from "react-imask";
