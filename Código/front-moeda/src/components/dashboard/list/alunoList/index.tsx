@@ -41,7 +41,7 @@ export function AlunosTable({ data, onView, onDelete }: AlunosTableProps) {
       onDelete?.(alunoSelecionado);
     } catch (error) {
       console.error(error);
-      handl
+    
     } finally {
       setModalOpen(false);
       setAlunoSelecionado(null);
