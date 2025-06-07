@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ConfirmationModal } from "../../modal/confirmationModal";
 import { toast } from "sonner";
-import { api } from "@/service/api";
+import api from "@/service/api";
 import ENDPOINTS from "@/service/endpoints";
 import { Eye, Trash2, Pencil } from "lucide-react"; // Adicionado Pencil (ícone lápis)
 import { useRouter } from "next/navigation";

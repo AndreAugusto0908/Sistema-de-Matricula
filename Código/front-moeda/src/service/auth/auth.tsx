@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import { api } from "../api"
+import api from "../api";
 
 type loginData = {
     documento: string;
