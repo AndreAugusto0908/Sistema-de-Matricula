@@ -6,15 +6,10 @@ import { useRouter } from "next/navigation"
 import { parseCookies } from "nookies"
 import { useAuth } from "@/contexts/AuthContext"
 
-type Vantagem = {
-    id: number;
-    valorMoedas: number;
-    descricao: string;
-    foto: string;
-    empresa: {
-        id: number;
-        nome: string;
-    }
+type HistoricoVantagem = {
+    nomeAluno: string;
+    valorVantagem: number;
+    descricaoVantagem: string;
 }
 
 interface VantagemFormProps {
@@ -22,7 +17,7 @@ interface VantagemFormProps {
 }
 
 const HistoricoModal = ({closeModal} : VantagemFormProps) => {
-    const [vantagens, setVantagens] = useState<Vantagem[]>([]);
+    const [historico, setHistorico] = useState<HistoricoVantagem[]>([]);
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
     const { user, isAuthenticated } = useAuth();
@@ -41,10 +36,10 @@ const HistoricoModal = ({closeModal} : VantagemFormProps) => {
             return;
         }
 
-        getVantagens();
+        getHistoricoVantagens();
     }, [isAuthenticated, user]);
 
-    const getVantagens = async () => {
+    const getHistoricoVantagens = async () => {
         try {
             const cookies = parseCookies();
             const token = cookies['nextauth.token'];
@@ -54,18 +49,18 @@ const HistoricoModal = ({closeModal} : VantagemFormProps) => {
             }
 
             console.log('ID da empresa:', user?.id);
-            const response = await api.get(`/vantagem/obterPorEmpresa?empresa=${user?.id}`);
-            setVantagens(response.data);
+            const response = await api.get(`/vantagem-aluno/empresa?empresa=${user?.id}`);
+            setHistorico(response.data);
             setError(null);
             console.log('Resposta da API:', response.data);
         } catch (error: any) {
-            console.error("Erro ao obter vantagens:", error);
+            console.error("Erro ao obter histórico:", error);
             if (error.response?.status === 403) {
-                setError("Você não tem permissão para acessar estas vantagens. Verifique se está logado como empresa.");
+                setError("Você não tem permissão para acessar este histórico. Verifique se está logado como empresa.");
             } else if (error.response?.status === 401) {
                 setError("Sua sessão expirou. Por favor, faça login novamente");
             } else {
-                setError("Erro ao carregar vantagens. Tente novamente mais tarde.");
+                setError("Erro ao carregar histórico. Tente novamente mais tarde.");
             }
         }
     }
@@ -76,16 +71,16 @@ const HistoricoModal = ({closeModal} : VantagemFormProps) => {
                 <div className="text-red-500 text-center p-4">
                     {error}
                 </div>
-            ) : vantagens.length === 0 ? (
+            ) : historico.length === 0 ? (
                 <div className="text-gray-500 text-center p-4">
-                    Nenhuma vantagem encontrada
+                    Nenhum histórico encontrado
                 </div>
             ) : (
-                vantagens.map((vantagem) => (
-                    <div key={vantagem.id} className="p-4 border-b last:border-b-0">
-                        <h3 className="text-lg font-semibold">{vantagem.descricao}</h3>
-                        <p className="text-gray-600">Valor: {vantagem.valorMoedas} moedas</p>
-                        <p className="text-gray-600">Empresa: {vantagem.empresa.nome}</p>
+                historico.map((item, index) => (
+                    <div key={index} className="p-4 border-b last:border-b-0">
+                        <h3 className="text-lg font-semibold">{item.descricaoVantagem}</h3>
+                        <p className="text-gray-600">Aluno: {item.nomeAluno}</p>
+                        <p className="text-gray-600">Valor: {item.valorVantagem} moedas</p>
                     </div>
                 ))
             )}
