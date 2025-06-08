@@ -4,6 +4,7 @@ public record ResponseAlunoVantagem(
         String nomeEmpresa,
         String descricao,
         Double valor,
-        String nomeAluno
+        String nomeAluno,
+        String cupom
 ) {
 }

@@ -2,10 +2,11 @@ type VantagensCardProps = {
   descricao: string;
   valor: string;
   empresa: string;
+  cupom: string;
   onResgatar?: () => void;
 };
 
-export default function VantagensCard({ descricao, valor, empresa, onResgatar }: VantagensCardProps) {
+export default function VantagensCard({ descricao, valor, empresa, cupom, onResgatar }: VantagensCardProps) {
   return (
     <div className="bg-white rounded-lg shadow-md p-6 w-full max-w-md mx-auto mb-6 transition-transform hover:scale-[1.02]">
       <div className="mb-4">
@@ -19,6 +20,10 @@ export default function VantagensCard({ descricao, valor, empresa, onResgatar }:
       <div className="mb-6">
         <p className="text-sm text-gray-500">Empresa</p>
         <p className="text-lg font-medium text-gray-700">{empresa}</p>
+      </div>
+      <div className="mb-6">
+        <p className="text-sm text-gray-500">Cupom</p>
+        <p className="text-lg font-medium text-gray-700">{cupom}</p>
       </div>
 
       {onResgatar && (

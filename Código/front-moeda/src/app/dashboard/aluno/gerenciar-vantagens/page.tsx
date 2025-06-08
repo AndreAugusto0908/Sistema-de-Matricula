@@ -19,6 +19,7 @@ interface Vantagem {
   descricao: string;
   valor: number;
   nomeAluno: string;
+  cupom: string;
 }
 
 const GerenciarVantagens = () => {
@@ -72,6 +73,7 @@ const GerenciarVantagens = () => {
             descricao={vantagem.descricao}
             valor={vantagem.valor.toFixed(2)}
             empresa={vantagem.nomeEmpresa}
+            cupom={vantagem.cupom}
             />
         ))}
         </section>

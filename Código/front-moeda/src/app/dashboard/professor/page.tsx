@@ -44,6 +44,7 @@ export default function DashboardProfessor() {
     const [query, setQuery] = useState('');
     const [selectedAluno, setSelectedAluno] = useState<Aluno | null>(null);
     const [userInfo, setUserInfo] = useState<User | null>(null);
+    const [transacoes, setTransacoes] = useState<any[]>([]);
 
     const fetchSaldoProfessor = async () => {
         if (!user?.documento) return;
@@ -78,12 +79,26 @@ export default function DashboardProfessor() {
         }
     };
 
+    const fetchTransacoes = async () => {
+        try {
+            console.log('Buscando transações para o professor:', user?.documento);
+            const response = await axios.get(`http://localhost:8080/professor/${user?.documento}/transacoes`);
+            console.log('Resposta da API:', response.data);
+            setTransacoes(response.data);
+        } catch (error) {
+            console.error('Erro ao carregar transações:', error);
+        }
+    };
+
     useEffect(() => {
        
         fetchSaldoProfessor();
         fetchAlunos();
+        if (user?.documento) {
+            fetchTransacoes();
+        }
         
-    }, []);
+    }, [saldoProfessor]);
 
     console.log('Estado atual dos alunos:', alunos);
 
@@ -243,7 +258,7 @@ export default function DashboardProfessor() {
                     </div>
                     
                     <div>
-                        <HistoricoTransacoes documentoProfessor={user?.documento || ''} />
+                        <HistoricoTransacoes documentoProfessor={user?.documento || ''} transacoes={transacoes} />
                     </div>
                 </div>
             </div>
