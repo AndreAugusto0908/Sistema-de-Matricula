@@ -43,18 +43,18 @@ export function SearchAddVantagem({ setFiltro, onVantagemCriada }: {
                     <Plus size={18} />
                 </Button>
 
-                <Button
+                {/* <Button
                     className="flex items-center gap-2 bg-[#FFD700] text-black hover:bg-[#e6c200] transition-all font-semibold"
                     onClick={() => (setIsModalOpenHistorico(true))}
                 >
                     <History size={18} />
-                </Button>
+                </Button> */}
 
                 <Button
-                    className="flex items-center gap-2 bg-[#FFFFF] text-black transition-all font-semibold"
+                    className="flex items-center gap-2 bg-[#FFD700] text-black transition-all hover:bg-[#e6c200] font-semibold"
                     onClick={() => setIsModalOpenExtrato(true)}
                 >
-                    Extrato
+                    <History size={18} />
                 </Button>
             </div>
 

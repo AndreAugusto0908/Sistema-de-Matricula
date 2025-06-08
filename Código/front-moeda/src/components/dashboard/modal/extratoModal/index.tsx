@@ -7,6 +7,7 @@ import handleError from "@/app/ErrorHandling"
 import { AuthContext } from "@/contexts/AuthContext"
 
 
+
 type User = {
     nome: string;
     documento: string;
@@ -40,6 +41,8 @@ interface VantagemFormProps {
 }
 
 const ExtratoModal = ({closeModal} : VantagemFormProps) => {
+    const { user } = useContext(AuthContext);
+
     const [transacoes, setTransacoes] = useState<any[]>([]);
     useEffect(() => {
         getTransactions();
@@ -48,7 +51,8 @@ const ExtratoModal = ({closeModal} : VantagemFormProps) => {
 
     const getTransactions = async () => {
         try {
-            const response = await api.get('/transacao/obterExtrato');
+            const response = await api.get('/transacao/obterExtrato?id='+user?.id);
+            
             setTransacoes(response.data);
             console.log(response.data);
         } catch (error) {
@@ -59,16 +63,18 @@ const ExtratoModal = ({closeModal} : VantagemFormProps) => {
     
 
 return (
-  <div className="w-full max-w-md mx-auto bg-white rounded-lg shadow-lg p-6 space-y-4">
+  <div className="w-full max-w-md mx-auto bg-white rounded-lg  p-6 space-y-4">
     <h2 className="text-xl font-bold text-gray-800 mb-2">Extrato de Transações</h2>
 
     <div className="divide-y divide-gray-200">
       {transacoes.map((transacao, index) => (
         <div key={index} className="py-3">
           <h3 className="text-base font-semibold text-gray-700">
-            Valor de moedas: {transacao.quantidadeMoeadas}
+            Valor de moedas: {transacao.quantidade}
           </h3>
-          <p className="text-sm text-gray-500">Origem: {transacao.origem.id}</p>
+          <p className="text-sm text-gray-500">Origem: {transacao.origem}</p>
+          <p className="text-sm text-gray-500">Destino: {transacao.destino}</p>
+          <p className="text-sm text-gray-500">Dia: {transacao.data}</p>
         </div>
       ))}
     </div>
