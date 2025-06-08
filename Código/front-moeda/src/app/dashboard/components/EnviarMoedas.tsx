@@ -26,10 +26,11 @@ export function EnviarMoedas({ documentoProfessor }: EnviarMoedasProps) {
     useEffect(() => {
         const fetchAlunos = async () => {
             try {
-                const response = await axios.get('/api/alunos');
+                const response = await axios.get('/api/aluno');
                 setAlunos(response.data);
             } catch (error) {
                 console.error('Erro ao carregar alunos:', error);
+                toast.error('Erro ao carregar lista de alunos');
             }
         };
         fetchAlunos();
@@ -48,11 +49,16 @@ export function EnviarMoedas({ documentoProfessor }: EnviarMoedasProps) {
             toast.error('Selecione um aluno');
             return;
         }
+        const valorNum = parseInt(valor, 10);
+        if (isNaN(valorNum) || valorNum < 1) {
+            toast.error('O valor deve ser um número maior ou igual a 1');
+            return;
+        }
         try {
             await axios.post('/api/transacao', {
                 documentoOrigem: documentoProfessor,
                 documentoRecebedor: selectedAluno.documento,
-                valor: parseFloat(valor),
+                valor: valorNum,
                 observacao
             });
             toast.success('Moedas enviadas com sucesso!');
@@ -77,6 +83,7 @@ export function EnviarMoedas({ documentoProfessor }: EnviarMoedasProps) {
                             <Combobox.Input
                                 className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
                                 onChange={(event) => setQuery(event.target.value)}
+                                onFocus={() => setQuery('')}
                                 displayValue={(aluno: Aluno) => aluno?.nome || ''}
                                 placeholder="Digite o nome ou documento do aluno"
                             />
@@ -120,9 +127,17 @@ export function EnviarMoedas({ documentoProfessor }: EnviarMoedasProps) {
                     <input
                         type="number"
                         value={valor}
-                        onChange={(e) => setValor(e.target.value)}
+                        onChange={(e) => {
+                            const v = e.target.value;
+                            // Permite apenas números e vazio
+                            if (/^\d*$/.test(v)) {
+                                setValor(v);
+                            }
+                        }}
                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                         required
+                        min={1}
+                        step="1"
                     />
                 </div>
                 <div>
