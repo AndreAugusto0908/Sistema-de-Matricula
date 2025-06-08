@@ -3,6 +3,7 @@ package br.com.pucminas.moedaestudantil.controller;
 import br.com.pucminas.moedaestudantil.DTO.HistoricoExtratoDTO;
 import br.com.pucminas.moedaestudantil.DTO.RequestResgatarVantagem;
 import br.com.pucminas.moedaestudantil.DTO.responses.ResponseAlunoVantagem;
+import br.com.pucminas.moedaestudantil.DTO.responses.ResponseVantagens;
 import br.com.pucminas.moedaestudantil.Infra.Security.SecurityConfigurations;
 import br.com.pucminas.moedaestudantil.repository.VantagemAlunoRepository;
 import br.com.pucminas.moedaestudantil.DTO.responses.GenericResponse;
@@ -59,7 +60,7 @@ public class VantagemAlunoController {
             vantagemAlunoService.resgatarVantagem(vantagemAluno);
             return ResponseEntity.ok().body("Sucesso");
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(new GenericResponse("Erro ao resgatar vantagem", "erro"));
+            return ResponseEntity.internalServerError().body(new GenericResponse(e.getMessage(), "erro"));
         }
     }
 
@@ -93,6 +94,12 @@ public class VantagemAlunoController {
         return ResponseEntity.ok(vantagensAluno);
     }
 
+    @GetMapping("/obterVantagensDiponiveisPorAluno")
+    public ResponseEntity<List<ResponseVantagens>> vantagensDisponiveisPorAluno(@RequestParam Long id){
+        List<ResponseVantagens> vantagensDisponiveis = vantagemAlunoService.vantagensDisponiveisPorAluno(id);
+        return ResponseEntity.ok(vantagensDisponiveis);
+    }
+  
     @GetMapping("/empresa")
     public ResponseEntity<List<HistoricoExtratoDTO>> buscarHistoricoPorEmpresa(
             @RequestParam Long idEmpresa

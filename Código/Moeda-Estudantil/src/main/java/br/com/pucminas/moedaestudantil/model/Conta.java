@@ -1,5 +1,6 @@
 package br.com.pucminas.moedaestudantil.model;
 
+import br.com.pucminas.moedaestudantil.exceptions.handlers.SaldoInsuficienteException;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,6 +26,10 @@ public class Conta {
      * @return o novo saldo após o débito
      */
     public Double realizarCompra(Double valor) {
+        if ((saldo - valor) < 0) {
+            throw new SaldoInsuficienteException("Saldo insuficiente para compra");
+        }
+
         this.saldo -= valor;
         return saldo;
     }

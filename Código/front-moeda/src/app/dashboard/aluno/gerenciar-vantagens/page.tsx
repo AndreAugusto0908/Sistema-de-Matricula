@@ -1,7 +1,7 @@
 'use client'
 
 import DashboardLayout from "@/components/dashboard/layout";
-import { ConfiguracaoEmpresa, menuPrincipalEmpresa } from "@/utils/constants";
+import { ConfiguracaoEmpresa, menuPrincipalaluno } from "@/utils/constants";
 import { Briefcase } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
@@ -10,9 +10,11 @@ import { VantagemsTable } from "@/components/dashboard/list/vantagemList";
 import { SearchGerenciarVantagemAluno } from "@/components/dashboard/searchbar/manageVantagem";
 import api from "@/service/api";
 import handleError from "@/app/ErrorHandling";
+import VantagensCard from "@/components/dashboard/vantagens/vantagensCard";
 
 
 interface Vantagem {
+  idVantagem: number;
   nomeEmpresa: string;
   descricao: string;
   valor: number;
@@ -49,7 +51,7 @@ const GerenciarVantagens = () => {
     <DashboardLayout
         title="Gerenciar Vantagens"
         Icon={Briefcase}
-        menuPrincipalItems={menuPrincipalEmpresa}
+        menuPrincipalItems={menuPrincipalaluno}
         configuracaoItems={ConfiguracaoEmpresa}
       >
       <div className="w-full flex flex-col justify-center gap-4">
@@ -58,13 +60,22 @@ const GerenciarVantagens = () => {
           <SearchGerenciarVantagemAluno setFiltro={setFiltro} />
         </div>
 
-        {/* Tabela de Alunos */}
-        <VantagemsTable
-          data={dadosFiltrados}
-          onDelete={(alunoDeletado) => {
-            setVantagens((prev) => prev.filter((a) => a.id !== alunoDeletado.id));
-          }}
-        />
+        
+        <div>
+        <h2 className="text-xl font-semibold text-gray-800 mb-2">Vantagens Resgatadas</h2>
+        </div>
+
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {dadosFiltrados.map((vantagem) => (
+            <VantagensCard
+            key={vantagem.idVantagem}
+            descricao={vantagem.descricao}
+            valor={vantagem.valor.toFixed(2)}
+            empresa={vantagem.nomeEmpresa}
+            />
+        ))}
+        </section>
+
       </div>
       </DashboardLayout>
   )

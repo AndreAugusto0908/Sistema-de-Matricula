@@ -12,6 +12,7 @@ type User = {
     documento: string;
     role: string;
     id: string;
+    saldo: number;
 }
 
 type DecodedToken = {
@@ -21,6 +22,7 @@ type DecodedToken = {
     id: string;
     exp: number;
     sub: string;
+    saldo: number;
 };
 
 type LoginData = {
@@ -61,7 +63,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 nome: decoded.nome,
                 documento: decoded.documento,
                 role: decoded.role,
-                id: decoded.id
+                id: decoded.id,
+                saldo: decoded.saldo
             })
 
             switch (decoded.role) {

@@ -1,12 +1,13 @@
 package br.com.pucminas.moedaestudantil.DTO;
 
-import jakarta.validation.constraints.NotBlank;
+
+import jakarta.validation.constraints.NotNull;
 
 public record RequestResgatarVantagem(
-        @NotBlank(message = "ID do ALuno não pode ser nulo")
+        @NotNull(message = "ID do ALuno não pode ser nulo")
         Long idAluno,
 
-        @NotBlank(message = "ID da Vantagem não pode ser nulo")
+        @NotNull(message = "ID da Vantagem não pode ser nulo")
         Long idVantagem
 ) {
 }
