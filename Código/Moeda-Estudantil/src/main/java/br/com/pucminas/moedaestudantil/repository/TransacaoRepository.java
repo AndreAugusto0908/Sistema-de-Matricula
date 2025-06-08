@@ -14,4 +14,8 @@ public interface TransacaoRepository extends JpaRepository<Transacao, Long> {
     
     @Query("SELECT t FROM Transacao t WHERE t.origem = :conta")
     List<Transacao> findByOrigem_UsuarioConta(@Param("conta") Conta conta);
+
+
+
+
 }

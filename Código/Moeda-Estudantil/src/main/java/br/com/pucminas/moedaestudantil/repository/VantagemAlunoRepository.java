@@ -15,4 +15,8 @@ public interface VantagemAlunoRepository extends JpaRepository<VantagemAluno, Lo
     @Query("SELECT va.vantagem FROM VantagemAluno va WHERE va.aluno = :aluno")
     List<Vantagem> findVantagensByAluno(@Param("aluno") Aluno aluno);
 
+    @Query("SELECT t FROM VantagemAluno t " +
+            "WHERE t.vantagem.empresa.id = :id " +
+            "AND t.vantagem IS NOT NULL")
+    List<VantagemAluno> findByVantagem_Empresa_Id(@Param("id") Long id);
 }

@@ -35,6 +35,13 @@ public class Conta {
     }
 
 
+    @OneToOne
+    @JoinColumn(name = "aluno_id")
+    private Aluno aluno;
+
+    @OneToOne
+    @JoinColumn(name = "empresa_id")
+    private Empresa empresa;
 
 
 

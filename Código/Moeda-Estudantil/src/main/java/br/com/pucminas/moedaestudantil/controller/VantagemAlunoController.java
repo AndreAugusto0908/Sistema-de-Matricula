@@ -1,11 +1,13 @@
 package br.com.pucminas.moedaestudantil.controller;
 
+import br.com.pucminas.moedaestudantil.DTO.HistoricoExtratoDTO;
 import br.com.pucminas.moedaestudantil.DTO.RequestResgatarVantagem;
 import br.com.pucminas.moedaestudantil.DTO.responses.ResponseAlunoVantagem;
 import br.com.pucminas.moedaestudantil.DTO.responses.ResponseVantagens;
 import br.com.pucminas.moedaestudantil.Infra.Security.SecurityConfigurations;
 import br.com.pucminas.moedaestudantil.repository.VantagemAlunoRepository;
 import br.com.pucminas.moedaestudantil.DTO.responses.GenericResponse;
+import br.com.pucminas.moedaestudantil.service.HistoricoService;
 import br.com.pucminas.moedaestudantil.service.VantagemAlunoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -28,9 +30,11 @@ public class VantagemAlunoController {
     private final VantagemAlunoRepository vantagemAlunoRepository;
     private final VantagemAlunoService vantagemAlunoService;
 
-    public VantagemAlunoController(VantagemAlunoRepository vantagemAlunoRepository, VantagemAlunoService vantagemAlunoService) {
+    private final HistoricoService historicoService;
+    public VantagemAlunoController(VantagemAlunoRepository vantagemAlunoRepository, VantagemAlunoService vantagemAlunoService,HistoricoService historicoService) {
         this.vantagemAlunoRepository = vantagemAlunoRepository;
         this.vantagemAlunoService = vantagemAlunoService;
+        this.historicoService = historicoService;
     }
 
     @PostMapping("/resgatar")
@@ -94,5 +98,13 @@ public class VantagemAlunoController {
     public ResponseEntity<List<ResponseVantagens>> vantagensDisponiveisPorAluno(@RequestParam Long id){
         List<ResponseVantagens> vantagensDisponiveis = vantagemAlunoService.vantagensDisponiveisPorAluno(id);
         return ResponseEntity.ok(vantagensDisponiveis);
+    }
+  
+    @GetMapping("/empresa")
+    public ResponseEntity<List<HistoricoExtratoDTO>> buscarHistoricoPorEmpresa(
+            @RequestParam Long idEmpresa
+    ) {
+        List<HistoricoExtratoDTO> historico = historicoService.buscarHistoricoPorNomeEmpresa(idEmpresa);
+        return ResponseEntity.ok(historico);
     }
 }

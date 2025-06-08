@@ -18,4 +18,6 @@ public class Vantagem {
     private String foto;
     @ManyToOne
     private Empresa empresa;
+
+
 }
