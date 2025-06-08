@@ -102,4 +102,12 @@ public class ProfessorService {
             contaRepository.save(conta);
         }
     }
+
+    public Double getSaldoProfessor(String documentoProfessor) {
+        Professor professor = professorRepository.getProfessorByDocumento(documentoProfessor);
+        if (professor == null) {
+            throw new RuntimeException("Professor não encontrado");
+        }
+        return professor.getConta().getSaldo();
+    }
 } 

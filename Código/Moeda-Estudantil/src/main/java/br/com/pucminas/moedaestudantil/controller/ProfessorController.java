@@ -40,4 +40,14 @@ public class ProfessorController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @GetMapping("/{documentoProfessor}/saldo")
+    public ResponseEntity<?> getSaldoProfessor(@PathVariable String documentoProfessor) {
+        try {
+            Double saldo = professorService.getSaldoProfessor(documentoProfessor);
+            return ResponseEntity.ok(saldo);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }
