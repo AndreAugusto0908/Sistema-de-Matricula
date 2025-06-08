@@ -6,7 +6,7 @@ import { LayoutDashboard, Coins } from "lucide-react";
 import HistoricoTransacoes from '../../dashboard/components/HistoricoTransacoes';
 import { useAuth } from "@/contexts/AuthContext";
 import { useState, useEffect, useContext } from 'react';
-import { api } from "@/service/api";
+import api from "@/service/api";
 import { AuthContext } from "@/contexts/AuthContext";
 import { parseCookies } from "nookies";
 import { Combobox } from '@headlessui/react';
@@ -26,47 +26,33 @@ interface Aluno {
     };
 }
 
+type User = {
+    nome: string;
+    documento: string;
+    role: string;
+    id: number;
+    saldo: number;
+}
+
 export default function DashboardProfessor() {
-    const { user, } = useContext(AuthContext);
-    const [saldoProfessor, setSaldoProfessor] = useState<number>(500);
+    const { user } = useContext(AuthContext);
+    const [saldoProfessor, setSaldoProfessor] = useState<number>();
     const [documentoAluno, setDocumentoAluno] = useState('');
     const [valor, setValor] = useState('');
     const [observacao, setObservacao] = useState('');
     const [alunos, setAlunos] = useState<Aluno[]>([]);
-    const [aluno, setAluno] = useState<Aluno | null>(null);
     const [query, setQuery] = useState('');
     const [selectedAluno, setSelectedAluno] = useState<Aluno | null>(null);
-    const [decodedToken, setDecodedToken] = useState<any | null>(null);
-   
-
-
-   function useUserFromToken() {
-        const cookies = parseCookies();
-        const token = cookies['nextauth.token'];
-        
-        if (!token) return null;
-        
-        try {
-            const decodedToken = JSON.parse(atob(token.split('.')[1]));
-            return {
-                nome: decodedToken.nome,
-                documento: decodedToken.documento,
-                role: decodedToken.role,
-                id: decodedToken.id
-            };
-        } catch (error) {
-            console.error('Erro ao decodificar token:', error);
-            return null;
-        }
-    }
+    const [userInfo, setUserInfo] = useState<User | null>(null);
 
     const fetchSaldoProfessor = async () => {
 
+        console.log(user);
         if (!user?.documento) return;
         
         try {
-            const token = parseCookies()['nextauth.token'];
             const response = await api.get(`/professor/${user.documento}/saldo`);
+            console.log(response.data);
             setSaldoProfessor(response.data);
         } catch (error) {
             console.error('Erro ao carregar saldo do professor:', error);
@@ -95,16 +81,15 @@ export default function DashboardProfessor() {
         }
     };
 
-
     useEffect(() => {
-
-             useUserFromToken();
+       
             fetchSaldoProfessor();
-            fetchAlunos();  
-
-    }, [user?.documento],);
+            fetchAlunos();
+        
+    }, []);
 
     console.log('Estado atual dos alunos:', alunos);
+    console.log(user);
 
     const filteredAlunos = query === ''
         ? alunos
@@ -132,7 +117,6 @@ export default function DashboardProfessor() {
                 observacao: observacao
             });
 
-
             toast.success('Moedas enviadas com sucesso!');
             setDocumentoAluno('');
             setValor('');
@@ -141,8 +125,7 @@ export default function DashboardProfessor() {
             setQuery('');
             
             // Atualizar o saldo do professor após o envio
-            const response = await api.get(`/professor/${user?.documento}/saldo`);
-            setSaldoProfessor(response.data);
+            await fetchSaldoProfessor();
         } catch (error) {
             console.error('Erro ao enviar moedas:', error);
             toast.error('Erro ao enviar moedas');
@@ -158,7 +141,7 @@ export default function DashboardProfessor() {
         >
             <div className="w-full flex flex-col gap-8">
                 <div>
-                    <h1 className="text-2xl font-bold mb-4">Bem-vindo {user?.nome} ao Painel do Professor</h1>
+                    <h1 className="text-2xl font-bold mb-4">Bem-vindo {userInfo?.nome || 'Professor'} ao Painel do Professor</h1>
                     <div className="flex items-center gap-2 mb-4">
                         <div className="bg-yellow-100 p-4 rounded-lg flex items-center gap-2">
                             <Coins className="h-6 w-6 text-yellow-600" />
