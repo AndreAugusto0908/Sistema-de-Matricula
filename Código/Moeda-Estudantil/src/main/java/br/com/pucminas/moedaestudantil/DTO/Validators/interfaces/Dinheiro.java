@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Dinheiro {
 
-    String message() default "Valor monetário inválido. Deve ser maior que 0 e até 99999.";
+    String message() default "Valor monetário inválido. Deve ser maior que 0 e até 111111.";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 

@@ -7,6 +7,7 @@ import br.com.pucminas.moedaestudantil.repository.VantagemRepository;
 import br.com.pucminas.moedaestudantil.DTO.responses.GenericResponse;
 import br.com.pucminas.moedaestudantil.service.VantagemService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,7 @@ public class VantagemController {
     }
 
     @PostMapping("/criar")
-    public ResponseEntity<?> criarVantagem(@RequestBody VantagemDTO vantagem) {
+    public ResponseEntity<?> criarVantagem(@RequestBody @Valid VantagemDTO vantagem) {
         try {
             return ResponseEntity.ok(vantagemService.criarVantagem(vantagem));
         } catch (Exception e) {
@@ -35,7 +36,7 @@ public class VantagemController {
     }
 
     @PutMapping("/atualizar")
-    public ResponseEntity<?> atualizarVantagem(@RequestBody VantagemDTO vantagem) {
+    public ResponseEntity<?> atualizarVantagem(@RequestBody @Valid VantagemDTO vantagem) {
         try {
             return ResponseEntity.ok(vantagemService.atualizarVantagem(vantagem));
         } catch (Exception e) {

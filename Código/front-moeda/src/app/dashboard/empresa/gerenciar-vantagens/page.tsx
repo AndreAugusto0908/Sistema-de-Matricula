@@ -8,13 +8,9 @@ import { AuthContext } from "@/contexts/AuthContext";
 import { parseCookies } from "nookies";
 import { VantagemsTable } from "@/components/dashboard/list/vantagemList";
 import { SearchAddVantagem } from "@/components/dashboard/searchbar/addVantagem";
-import { api } from "@/service/api";
+import api from "@/service/api";
 import handleError from "@/app/ErrorHandling";
 
-
-interface VantagemData {
-  data: Vantagem[];
-}
 
 interface Vantagem {
   id: number;
@@ -24,41 +20,43 @@ interface Vantagem {
 }
 
 const GerenciarVantagens = () => {
-  const { user, } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [filtro, setFiltro] = useState("");
+  const [vantagens, setVantagens] = useState<Vantagem[]>([]);
 
-    const [ vantagens, setVantagens ] = useState<Vantagem[]>([])
+  const carregarVantagens = async () => {
+    try {
+      const res = await api.get<Vantagem[]>(`/vantagem/obterPorEmpresa?empresa=${user?.documento}`);
+      console.log("Vantagens:", res);
+      setVantagens(res.data);
+    } catch (error) {
+      console.error("Erro ao buscar vantagens:", error);
+      handleError(error);
+    }
+  };
 
-    useEffect(() =>{
-      makeRequest()
-    }, [])
+  useEffect(() => {
+    carregarVantagens();
+  }, []);
 
-    const makeRequest = async () => {
-      try {
-        const cookies = parseCookies();
-        const res = await api.get<VantagemData>(`/vantagem/obterPorEmpresa?empresa=${user?.documento}`)
-        setVantagens(res.data.data)
-      } catch (error) {
-        console.error("Erro ao buscar vantagens:", error);
-        handleError(error);
-      }
-    
-    const dadosFiltrados = vantagens.filter((vantagem) =>
-        vantagem.descricao.toLowerCase().includes(filtro.toLowerCase())
-    );
-  }
+  const dadosFiltrados = vantagens.filter((vantagem) =>
+    vantagem.descricao.toLowerCase().includes(filtro.toLowerCase())
+  );
 
   return (
     <DashboardLayout
-        title="Gerenciar Vantagens"
-        Icon={Briefcase}
-        menuPrincipalItems={menuPrincipalEmpresa}
-        configuracaoItems={ConfiguracaoEmpresa}
-      >
+      title="Gerenciar Vantagens"
+      Icon={Briefcase}
+      menuPrincipalItems={menuPrincipalEmpresa}
+      configuracaoItems={ConfiguracaoEmpresa}
+    >
       <div className="w-full flex flex-col justify-center gap-4">
         {/* Barra de pesquisa + botão adicionar aluno */}
         <div className="w-full mb-4">
-          <SearchAddVantagem setFiltro={setFiltro} />
+          <SearchAddVantagem 
+            setFiltro={setFiltro} 
+            onVantagemCriada={carregarVantagens}
+          />
         </div>
 
         {/* Tabela de Alunos */}
@@ -69,8 +67,8 @@ const GerenciarVantagens = () => {
           }}
         />
       </div>
-      </DashboardLayout>
-  )
+    </DashboardLayout>
+  );
 }
 
 export default GerenciarVantagens;

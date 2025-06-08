@@ -7,12 +7,10 @@ import br.com.pucminas.moedaestudantil.repository.*;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/transacao")
@@ -74,5 +72,11 @@ public class TransacaoController {
         transacao.setDestino(recebedor);
         transacaoRepository.save(transacao);
         return ResponseEntity.ok(transacao);
+    }
+
+    @GetMapping(value = "/obterExtrato")
+    public ResponseEntity<?> obterExtrato(){
+        List<Transacao> trs =  transacaoRepository.findAll();
+        return ResponseEntity.ok(trs);
     }
 }

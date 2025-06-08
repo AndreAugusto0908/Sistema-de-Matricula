@@ -6,9 +6,9 @@ import { AlunosTable } from "@/components/dashboard/list/alunoList";
 import { SearchAddAluno } from "@/components/dashboard/searchbar/addAluno";
 import { ConfiguracaoSecretaria, menuPrincipalSecretaria } from "@/utils/constants";
 import { Users } from "lucide-react";
-import { api } from "@/service/api";
+import api from "@/service/api";
 import ENDPOINTS from "@/service/endpoints";
-import { handleError } from "@/app/ErrorHandling";
+import handleError from "@/app/ErrorHandling";
 
 interface Aluno {
   id: number;

@@ -55,7 +55,7 @@ export const menuPrincipalEmpresa = [
     icon: LayoutDashboard
   },
   {
-    nome: "Gerenciar Alunos",
+    nome: "Gerenciar Vantagens",
     url: "/dashboard/empresa/gerenciar-vantagens",
     icon: Briefcase
   }
@@ -70,6 +70,31 @@ export const ConfiguracaoEmpresa = [
   {
     nome: "Configurações",
     url: "/dashboard/empresa/configuracoes",
+    icon: Settings
+  }
+];
+export const menuPrincipalaluno = [
+  {
+    nome: "Visão Geral",
+    url: "/dashboard/aluno",
+    icon: LayoutDashboard
+  },
+  {
+    nome: "Gerenciar Vantagens",
+    url: "/dashboard/aluno/gerenciar-vantagens",
+    icon: Briefcase
+  }
+];
+
+export const Configuracaoaluno = [
+  {
+    nome: "Perfil",
+    url: "/dashboard/aluno/perfil",
+    icon: User
+  },
+  {
+    nome: "Configurações",
+    url: "/dashboard/aluno/configuracoes",
     icon: Settings
   }
 ];

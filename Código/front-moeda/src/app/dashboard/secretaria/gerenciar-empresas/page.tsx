@@ -6,7 +6,7 @@ import { EmpresasTable } from "@/components/dashboard/list/empresasList";
 import { SearchAddEmpresa } from "@/components/dashboard/searchbar/addEmpresa";
 import { ConfiguracaoSecretaria, menuPrincipalSecretaria } from "@/utils/constants";
 import { Building2 } from "lucide-react"; // Ícone diferente para empresas
-import { api } from "@/service/api";
+import api from "@/service/api";
 import ENDPOINTS from "@/service/endpoints";
 import handleError from "@/app/ErrorHandling";
 

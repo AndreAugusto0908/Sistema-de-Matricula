@@ -2,6 +2,7 @@ package br.com.pucminas.moedaestudantil.service;
 
 import br.com.pucminas.moedaestudantil.DTO.VantagemDTO;
 import br.com.pucminas.moedaestudantil.model.Vantagem;
+import br.com.pucminas.moedaestudantil.repository.EmpresaRepository;
 import br.com.pucminas.moedaestudantil.repository.VantagemRepository;
 import br.com.pucminas.moedaestudantil.DTO.responses.GenericResponse;
 import org.springframework.stereotype.Service;
@@ -12,9 +13,11 @@ import java.util.Optional;
 public class VantagemService {
 
     private final VantagemRepository vantagemRepository;
+    private final EmpresaRepository empresaRepository;
 
-    public VantagemService(VantagemRepository vantagemRepository) {
+    public VantagemService(VantagemRepository vantagemRepository, EmpresaRepository empresaRepository) {
         this.vantagemRepository = vantagemRepository;
+        this.empresaRepository = empresaRepository;
     }
 
     public GenericResponse criarVantagem(VantagemDTO vantagem) {
@@ -22,7 +25,7 @@ public class VantagemService {
         va.setDescricao(vantagem.getDescricao());
         va.setValorMoedas(vantagem.getValorMoedas());
         va.setFoto(vantagem.getFoto());
-        va.setEmpresa(vantagem.getEmpresa());
+        va.setEmpresa(this.empresaRepository.findById(vantagem.getEmpresa()).get());
         vantagemRepository.save(va);
         return new GenericResponse("Vantagem criada com sucesso", "sucesso");
     }

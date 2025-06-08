@@ -1,6 +1,20 @@
-import FormModal from "../../modal/formModal/index"
-import { MouseEventHandler } from "react"
+'use client'
 
+import api from "@/service/api"
+import FormModal from "../../modal/formModal/index"
+import { MouseEventHandler, useContext } from "react"
+import handleError from "@/app/ErrorHandling"
+import { AuthContext } from "@/contexts/AuthContext"
+import toast from "react-hot-toast"
+import { CheckCircle } from "lucide-react"
+
+
+type User = {
+    nome: string;
+    documento: string;
+    role: string;
+    id: string;
+}
 
 
 type ButtonObject = {
@@ -11,7 +25,8 @@ type ButtonObject = {
 
 type InputObject = {
     tipo: string,
-    title: string
+    title: string,
+    idInput?: string
 }
 
 interface FormModalProps {
@@ -24,15 +39,72 @@ interface FormModalProps {
 
 interface VantagemFormProps {
     closeModal: () => void;
+    onVantagemCriada?: () => void;
 }
 
-export const VantagemForm = ({closeModal} : VantagemFormProps) => {
+
+
+export const VantagemForm = ({closeModal, onVantagemCriada} : VantagemFormProps) => {
+    const { user } = useContext(AuthContext);
+
+    const criarVantagem = async (descricao: string, preco: number, imagem: string) => {
+        try {
+            const response = await api.post("/vantagem/criar", {
+                descricao: descricao,
+                valorMoedas: preco,
+                foto: imagem,
+                empresa: user?.id
+            });
+            console.log("Vantagem criada com sucesso:", response);
+            
+            // Mostrar toast de sucesso com ícone
+            toast.custom((t) => (
+                <div className={`${
+                    t.visible ? 'animate-enter' : 'animate-leave'
+                } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}>
+                    <div className="flex-1 w-0 p-4">
+                        <div className="flex items-start">
+                            <div className="flex-shrink-0 pt-0.5">
+                                <CheckCircle className="h-10 w-10 text-green-500" />
+                            </div>
+                            <div className="ml-3 flex-1">
+                                <p className="text-sm font-medium text-gray-900">
+                                    Vantagem adicionada com sucesso!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ), {
+                duration: 3000,
+                position: 'top-center',
+            });
+            
+            // Chamar a função de callback para atualizar a lista
+            if (onVantagemCriada) {
+                onVantagemCriada();
+            }
+            
+            closeModal();
+        } catch (error) {
+            console.error("Erro ao criar vantagem:", error);
+            handleError(error);
+            throw error;
+        }
+    }
+
     const formModal: FormModalProps = {
     modalTitle: "Adicionar Vantagem",
     buttons: [
         {
             title: "Salvar",
-            action: () => { console.log("salvar"); closeModal() },
+            action: (event) => { 
+                event.preventDefault();
+                const descricao = (document.querySelector('#input_form_modalDescrição') as HTMLInputElement).value;
+                const preco = parseFloat((document.querySelector('#input_form_modalPreço') as HTMLInputElement).value);
+                const imagem = (document.querySelector('#input_form_modallink') as HTMLInputElement).value;
+                criarVantagem(descricao, preco, imagem)
+            },
             className: "bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded"
         },
         {
@@ -44,15 +116,18 @@ export const VantagemForm = ({closeModal} : VantagemFormProps) => {
     inputs: [
         {
             tipo: "text",
-            title: "Descrição"
+            title: "Descrição",
+            idInput: "input_form_modalDescrição"
         },
         {
             tipo: "number",
-            title: "Preço"
+            title: "Preço",
+            idInput: "input_form_modalPreço"
         },
         {
             tipo: "text",
-            title: "link da imagem"
+            title: "link da imagem",
+            idInput: "input_form_modallink"
         }
     ]
 }

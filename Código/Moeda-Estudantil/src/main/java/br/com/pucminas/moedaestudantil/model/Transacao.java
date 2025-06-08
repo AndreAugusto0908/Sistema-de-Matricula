@@ -26,4 +26,8 @@ public class Transacao {
     private LocalDate data;
     @Column(name = "mensagem")
     private String mensagem;
+
+    @ManyToOne
+    @JoinColumn(name = "vantagem_id")
+    private Vantagem vantagem;
 }
