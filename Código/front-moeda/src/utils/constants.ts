@@ -104,16 +104,6 @@ export const menuPrincipalProfessor = [
     nome: "Visão Geral",
     url: "/dashboard/professor",
     icon: LayoutDashboard
-  },
-  {
-    nome: "Enviar Moedas",
-    url: "/dashboard/professor/enviar-moedas",
-    icon: Coins
-  },
-  {
-    nome: "Histórico",
-    url: "/dashboard/professor/historico",
-    icon: History
   }
 ];
 

@@ -20,14 +20,18 @@ export default function HistoricoTransacoes({ documentoProfessor }: HistoricoTra
     useEffect(() => {
         const fetchTransacoes = async () => {
             try {
-                const response = await axios.get(`/api/professor/${documentoProfessor}/transacoes`);
+                console.log('Buscando transações para o professor:', documentoProfessor);
+                const response = await axios.get(`http://localhost:8080/professor/${documentoProfessor}/transacoes`);
+                console.log('Resposta da API:', response.data);
                 setTransacoes(response.data);
             } catch (error) {
                 console.error('Erro ao carregar transações:', error);
             }
         };
 
-        fetchTransacoes();
+        if (documentoProfessor) {
+            fetchTransacoes();
+        }
     }, [documentoProfessor]);
 
     return (
