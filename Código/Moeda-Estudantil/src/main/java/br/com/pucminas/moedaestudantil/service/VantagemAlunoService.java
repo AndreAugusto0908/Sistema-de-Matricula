@@ -1,8 +1,10 @@
 package br.com.pucminas.moedaestudantil.service;
 
 import br.com.pucminas.moedaestudantil.DTO.Mappers.ResponseAlunoVantagemMapper;
+import br.com.pucminas.moedaestudantil.DTO.Mappers.ResponseVantagensMapper;
 import br.com.pucminas.moedaestudantil.DTO.RequestResgatarVantagem;
 import br.com.pucminas.moedaestudantil.DTO.responses.ResponseAlunoVantagem;
+import br.com.pucminas.moedaestudantil.DTO.responses.ResponseVantagens;
 import br.com.pucminas.moedaestudantil.model.Aluno;
 import br.com.pucminas.moedaestudantil.model.Vantagem;
 import br.com.pucminas.moedaestudantil.model.VantagemAluno;
@@ -81,5 +83,21 @@ public class VantagemAlunoService {
         Aluno aluno = alunoOpt.get();
         List<VantagemAluno> vantagensAluno = vantagemAlunoRepository.getByAluno(aluno);
         return ResponseAlunoVantagemMapper.mapFrom(vantagensAluno);
+    }
+
+    public List<ResponseVantagens> vantagensDisponiveisPorAluno(Long idAluno){
+        Optional<Aluno> alunoOpt = alunoRepository.findById(idAluno);
+        if (alunoOpt.isEmpty()) {return Collections.emptyList();}
+
+        Aluno aluno = alunoOpt.get();
+        List<Vantagem> vantagemJaObtida = vantagemAlunoRepository.findVantagensByAluno(aluno);
+        List<Vantagem> vantagensDisponiveis = vantagemRepository.findAll();
+
+        vantagensDisponiveis.removeAll(vantagemJaObtida);
+
+        return ResponseVantagensMapper.toResponseList(vantagensDisponiveis);
+
+
+
     }
 }
