@@ -46,10 +46,7 @@ export default function DashboardProfessor() {
     const [userInfo, setUserInfo] = useState<User | null>(null);
 
     const fetchSaldoProfessor = async () => {
-
-        console.log(user);
         if (!user?.documento) return;
-        
         try {
             const response = await api.get(`/professor/${user.documento}/saldo`);
             console.log(response.data);
@@ -83,13 +80,12 @@ export default function DashboardProfessor() {
 
     useEffect(() => {
        
-            fetchSaldoProfessor();
-            fetchAlunos();
+        fetchSaldoProfessor();
+        fetchAlunos();
         
     }, []);
 
     console.log('Estado atual dos alunos:', alunos);
-    console.log(user);
 
     const filteredAlunos = query === ''
         ? alunos
