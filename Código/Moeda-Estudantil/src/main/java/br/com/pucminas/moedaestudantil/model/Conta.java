@@ -1,5 +1,6 @@
 package br.com.pucminas.moedaestudantil.model;
 
+import br.com.pucminas.moedaestudantil.DTO.Validators.interfaces.Dinheiro;
 import br.com.pucminas.moedaestudantil.exceptions.handlers.SaldoInsuficienteException;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ public class Conta {
     protected Long id;
 
     @Column(name = "saldo")
+    @Dinheiro
     private double saldo;
 
     /**

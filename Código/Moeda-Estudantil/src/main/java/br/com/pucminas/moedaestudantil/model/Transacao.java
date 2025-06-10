@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+import br.com.pucminas.moedaestudantil.DTO.Validators.interfaces.Dinheiro;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,12 +18,15 @@ public class Transacao {
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
+
     @Column(name = "quantia")
+    @Dinheiro
     private double quantidadeMoeadas;
     @ManyToOne
     private Conta origem;
     @ManyToOne
     private Conta destino;
+
     @Column(name = "data")
     private LocalDate data;
     @Column(name = "mensagem")

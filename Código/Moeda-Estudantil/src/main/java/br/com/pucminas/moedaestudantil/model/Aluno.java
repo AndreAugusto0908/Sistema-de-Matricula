@@ -1,9 +1,13 @@
 package br.com.pucminas.moedaestudantil.model;
 
 import br.com.pucminas.moedaestudantil.DTO.RequestResgatarVantagem;
+import br.com.pucminas.moedaestudantil.DTO.Validators.interfaces.CPF;
+import br.com.pucminas.moedaestudantil.DTO.Validators.interfaces.RG;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,9 +22,14 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 public class Aluno extends UsuarioConta {
+
     @Column(name = "rg")
+    @RG
     private String rg;
+
     @Column(name = "endereco")
+    @NotBlank(message = "O endereço é obrigatório.")
+    @Size(min = 5, max = 255, message = "O endereço deve ter entre {min} e {max} caracteres.")
     private String endereco;
 
     public Aluno(){
