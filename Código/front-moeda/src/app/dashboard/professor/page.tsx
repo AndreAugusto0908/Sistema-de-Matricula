@@ -1,5 +1,6 @@
 'use client';
 
+import handleError from "@/app/ErrorHandling";
 import DashboardLayout from "@/components/dashboard/layout";
 import { ConfiguracaoProfessor, menuPrincipalProfessor } from "../../../utils/constants";
 import { LayoutDashboard, Coins } from "lucide-react";
@@ -44,6 +45,7 @@ export default function DashboardProfessor() {
     const [query, setQuery] = useState('');
     const [selectedAluno, setSelectedAluno] = useState<Aluno | null>(null);
     const [userInfo, setUserInfo] = useState<User | null>(null);
+    const [refreshKey, setRefreshKey] = useState(0);
 
     const fetchSaldoProfessor = async () => {
         if (!user?.documento) return;
@@ -71,6 +73,7 @@ export default function DashboardProfessor() {
                     }
                 }));
                 setAlunos(alunosFormatados);
+
             }
         } catch (error: any) {
             console.error('Erro detalhado ao carregar alunos:', error);
@@ -122,9 +125,10 @@ export default function DashboardProfessor() {
             
             // Atualizar o saldo do professor após o envio
             await fetchSaldoProfessor();
-        } catch (error) {
+            setRefreshKey(prev => prev + 1);
+        } catch (error:any) {
             console.error('Erro ao enviar moedas:', error);
-            toast.error('Erro ao enviar moedas');
+            toast.error(error.response.data.message);
         }
     };
 
@@ -243,7 +247,7 @@ export default function DashboardProfessor() {
                     </div>
                     
                     <div>
-                        <HistoricoTransacoes documentoProfessor={user?.documento || ''} />
+                        <HistoricoTransacoes key={refreshKey} documentoProfessor={user?.documento || ''} />
                     </div>
                 </div>
             </div>
