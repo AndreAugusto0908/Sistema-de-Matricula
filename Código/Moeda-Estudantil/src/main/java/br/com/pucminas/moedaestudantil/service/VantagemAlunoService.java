@@ -6,15 +6,18 @@ import br.com.pucminas.moedaestudantil.DTO.RequestResgatarVantagem;
 import br.com.pucminas.moedaestudantil.DTO.responses.ResponseAlunoVantagem;
 import br.com.pucminas.moedaestudantil.DTO.responses.ResponseVantagens;
 import br.com.pucminas.moedaestudantil.model.Aluno;
+import br.com.pucminas.moedaestudantil.model.Transacao;
 import br.com.pucminas.moedaestudantil.model.Vantagem;
 import br.com.pucminas.moedaestudantil.model.VantagemAluno;
 import br.com.pucminas.moedaestudantil.repository.AlunoRepository;
+import br.com.pucminas.moedaestudantil.repository.TransacaoRepository;
 import br.com.pucminas.moedaestudantil.repository.VantagemAlunoRepository;
 import br.com.pucminas.moedaestudantil.repository.VantagemRepository;
 import br.com.pucminas.moedaestudantil.DTO.responses.GenericResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +34,9 @@ public class VantagemAlunoService {
     @Autowired
     private VantagemRepository vantagemRepository;
 
+    @Autowired
+    private TransacaoRepository transacaoRepository;
+
     /**
      * Realiza o resgate de uma vantagem por um aluno específico.
      *
@@ -42,6 +48,8 @@ public class VantagemAlunoService {
      *
      */
     public GenericResponse resgatarVantagem(RequestResgatarVantagem vantagemAluno) {
+
+
         Aluno aluno = alunoRepository.findById(vantagemAluno.idAluno()).get();
         Vantagem vantagem = vantagemRepository.findById(vantagemAluno.idVantagem()).get();
 
@@ -53,6 +61,17 @@ public class VantagemAlunoService {
 
         vantagemAlunoRepository.save(newVantagemAluno);
         alunoRepository.save(aluno);
+
+        if(saldo > 0) {
+            Transacao trs = new Transacao();
+            trs.setOrigem(aluno.getConta());
+            trs.setDestino(vantagem.getEmpresa().getConta());
+            trs.setData(LocalDate.now());
+            trs.setQuantidadeMoeadas(vantagem.getValorMoedas());
+            trs.setMensagem("Aluno adquiriu vantagem " + vantagem.getDescricao() );
+            transacaoRepository.save(trs);
+        }
+
         return new GenericResponse("Vantagem resgatada com sucesso | Saldo" + saldo, "sucesso");
     }
 

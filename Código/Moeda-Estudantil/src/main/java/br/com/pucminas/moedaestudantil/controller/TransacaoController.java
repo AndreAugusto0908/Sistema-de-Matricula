@@ -1,6 +1,7 @@
 package br.com.pucminas.moedaestudantil.controller;
 
 import br.com.pucminas.moedaestudantil.DTO.CriarTransacaoDTO;
+import br.com.pucminas.moedaestudantil.DTO.ExtratoDTO;
 import br.com.pucminas.moedaestudantil.Infra.Security.SecurityConfigurations;
 import br.com.pucminas.moedaestudantil.model.*;
 import br.com.pucminas.moedaestudantil.repository.*;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -22,13 +24,15 @@ public class TransacaoController {
     private final AlunoRepository alunoRepository;
     private final ProfessorRepository professorRepository;
     private final EmpresaRepository empresaRepository;
+    private final UsuarioContaRepository usuarioContaRepository;
 
-    public TransacaoController(TransacaoRepository transacaoRepository, ContaRepository contaRepository, AlunoRepository alunoRepository, ProfessorRepository professorRepository, EmpresaRepository empresaRepository) {
+    public TransacaoController(TransacaoRepository transacaoRepository, ContaRepository contaRepository, AlunoRepository alunoRepository, ProfessorRepository professorRepository, EmpresaRepository empresaRepository, UsuarioContaRepository usuarioContaRepository) {
         this.transacaoRepository = transacaoRepository;
         this.contaRepository = contaRepository;
         this.alunoRepository = alunoRepository;
         this.professorRepository = professorRepository;
         this.empresaRepository = empresaRepository;
+        this.usuarioContaRepository = usuarioContaRepository;
     }
 
     @PostMapping
@@ -75,8 +79,16 @@ public class TransacaoController {
     }
 
     @GetMapping(value = "/obterExtrato")
-    public ResponseEntity<?> obterExtrato(){
-        List<Transacao> trs =  transacaoRepository.findAll();
-        return ResponseEntity.ok(trs);
+    public ResponseEntity<?> obterExtrato(@RequestParam("id") Long id){
+        UsuarioConta usuarioConta = this.usuarioContaRepository.findById(id).get();
+
+        List<Transacao> trs =  transacaoRepository.getByOrigemOrDestino(usuarioConta.getConta(), usuarioConta.getConta());
+        List<ExtratoDTO> extratoDTOs = new ArrayList<>();
+        for(Transacao tr : trs) {
+            String nomeOrigem = this.usuarioContaRepository.findById(tr.getOrigem().getId()).get().getNome();
+            String nomeDestino = this.usuarioContaRepository.findById(tr.getDestino().getId()).get().getNome();
+            extratoDTOs.add(new ExtratoDTO(tr.getQuantidadeMoeadas(), nomeOrigem, nomeDestino, tr.getData().toString()));
+        }
+        return ResponseEntity.ok(extratoDTOs);
     }
 }

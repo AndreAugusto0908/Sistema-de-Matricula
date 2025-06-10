@@ -34,7 +34,7 @@ export function DashNavbar({ Icon, title }: DashNavbarProps) {
       </div>
 
       {/* Perfil Dropdown */}
-      <DropdownMenu>
+      {/* <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <button className="flex items-center gap-3 focus:outline-none hover:cursor-pointer">
             <div
@@ -66,7 +66,7 @@ export function DashNavbar({ Icon, title }: DashNavbarProps) {
             </DropdownMenuItem>
           ))}
         </DropdownMenuContent>
-      </DropdownMenu>
+      </DropdownMenu> */}
     </div>
   );
 }
