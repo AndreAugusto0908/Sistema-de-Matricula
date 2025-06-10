@@ -2,12 +2,14 @@ package br.com.pucminas.moedaestudantil.controller;
 
 import br.com.pucminas.moedaestudantil.DTO.EnviarMoedasDTO;
 import br.com.pucminas.moedaestudantil.DTO.TransacaoResponseDTO;
+import br.com.pucminas.moedaestudantil.DTO.Validators.interfaces.Dinheiro;
 import br.com.pucminas.moedaestudantil.Infra.Security.SecurityConfigurations;
 import br.com.pucminas.moedaestudantil.service.ProfessorService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -22,7 +24,7 @@ public class ProfessorController {
     @PostMapping("/{documentoProfessor}/enviar-moedas")
     public ResponseEntity<?> enviarMoedas(
             @PathVariable String documentoProfessor,
-            @RequestBody EnviarMoedasDTO dto) {
+            @Valid @RequestBody EnviarMoedasDTO dto) {
         try {
             TransacaoResponseDTO transacao = professorService.enviarMoedas(documentoProfessor, dto);
             return ResponseEntity.ok(transacao);
