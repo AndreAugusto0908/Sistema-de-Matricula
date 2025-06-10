@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '@/service/api';
 
 interface Transacao {
     id: number;
@@ -12,12 +12,27 @@ interface Transacao {
 
 interface HistoricoTransacoesProps {
     documentoProfessor: string;
-    transacoes: Transacao[];
 }
 
-export default function HistoricoTransacoes({ documentoProfessor, transacoes }: HistoricoTransacoesProps) {
+export default function HistoricoTransacoes({ documentoProfessor }: HistoricoTransacoesProps) {
+    const [transacoes, setTransacoes] = useState<Transacao[]>([]);
 
+    useEffect(() => {
+        const fetchTransacoes = async () => {
+            try {
+                console.log('Buscando transações para o professor:', documentoProfessor);
+                const response = await api.get(`/professor/${documentoProfessor}/transacoes`);
+                console.log('Resposta da API:', response.data);
+                setTransacoes(response.data);
+            } catch (error) {
+                console.error('Erro ao carregar transações:', error);
+            }
+        };
 
+        if (documentoProfessor) {
+            fetchTransacoes();
+        }
+    }, [documentoProfessor]);
 
     return (
         <div className="bg-white p-6 rounded-lg shadow-md">
@@ -33,7 +48,7 @@ export default function HistoricoTransacoes({ documentoProfessor, transacoes }: 
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                        {transacoes.map((transacao) => (
+                        {transacoes?.map((transacao) => (
                             <tr key={transacao.id}>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                     {new Date(transacao.data).toLocaleDateString()}

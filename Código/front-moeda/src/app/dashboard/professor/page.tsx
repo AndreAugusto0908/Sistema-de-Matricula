@@ -49,6 +49,7 @@ export default function DashboardProfessor() {
 
     const fetchSaldoProfessor = async () => {
         if (!user?.documento) return;
+        console.log(user.documento);
         try {
             const response = await api.get(`/professor/${user.documento}/saldo`);
             console.log(response.data);
@@ -81,26 +82,11 @@ export default function DashboardProfessor() {
         }
     };
 
-    const fetchTransacoes = async () => {
-        try {
-            console.log('Buscando transações para o professor:', user?.documento);
-            const response = await axios.get(`http://localhost:8080/professor/${user?.documento}/transacoes`);
-            console.log('Resposta da API:', response.data);
-            setTransacoes(response.data);
-        } catch (error) {
-            console.error('Erro ao carregar transações:', error);
-        }
-    };
-
     useEffect(() => {
-       
+        console.log(user?.documento);
         fetchSaldoProfessor();
         fetchAlunos();
-        if (user?.documento) {
-            fetchTransacoes();
-        }
-        
-    }, [saldoProfessor]);
+    }, []);
 
     console.log('Estado atual dos alunos:', alunos);
 
@@ -127,7 +113,7 @@ export default function DashboardProfessor() {
             await api.post(`/professor/${user?.documento}/enviar-moedas`, {
                 documentoRecebedor: selectedAluno?.documento,
                 valor: valorNum,
-                observacao: observacao
+                observacao: observacao 
             });
 
             toast.success('Moedas enviadas com sucesso!');
