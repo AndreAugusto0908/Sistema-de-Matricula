@@ -15,6 +15,6 @@ public class EnviarMoedasDTO {
     private String documentoRecebedor;
     @Dinheiro
     private Double valor;
-    @NotBlank(message = "Observação não pode ser em Branco")
+    
     private String observacao;
 }
