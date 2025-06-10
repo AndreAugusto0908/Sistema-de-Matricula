@@ -86,7 +86,7 @@ export default function DashboardProfessor() {
         console.log(user?.documento);
         fetchSaldoProfessor();
         fetchAlunos();
-    }, []);
+    }, [selectedAluno]);
 
     console.log('Estado atual dos alunos:', alunos);
 
@@ -128,7 +128,7 @@ export default function DashboardProfessor() {
             setRefreshKey(prev => prev + 1);
         } catch (error:any) {
             console.error('Erro ao enviar moedas:', error);
-            toast.error(error.response.data.message);
+            toast.error(error.response.data);
         }
     };
 
